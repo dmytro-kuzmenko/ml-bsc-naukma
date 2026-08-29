@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini-project — specification — Machine Learning · NaUKMA</title>
+<meta name="description" content="Full specification of the mini-project for the Machine Learning course at NaUKMA.">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<script defer src="../../assets/js/config.js"></script>
+<script defer src="../../assets/js/main.js"></script>
+<style>
+  .doc-page { max-width: 54rem; }
+  .doc-crumb { margin: 0 0 1.1rem; font-size: 0.92rem; }
+  .doc-body h1 { font-size: 1.9rem; border-bottom: 1px solid var(--line); padding-bottom: 0.35rem; }
+  .doc-body h2 { font-size: 1.45rem; }
+  .doc-body h3 { font-size: 1.15rem; }
+  .doc-body .question-meta { margin: 1.3rem 0 0.4rem; }
+  .doc-body blockquote {
+    margin: 1rem 0; padding: 0.6rem 1rem;
+    background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--gold);
+    border-radius: var(--radius); color: var(--muted);
+  }
+  .doc-body blockquote p { margin: 0; }
+  .doc-body pre {
+    background: #f1ede2; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 0.8rem 1rem; overflow-x: auto; font-size: 0.86rem; line-height: 1.5;
+  }
+  .doc-body code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: #f1ede2; border-radius: 3px; padding: 0.08em 0.32em; font-size: 0.88em;
+  }
+  .doc-body pre code { background: none; padding: 0; font-size: 0.86rem; }
+  .doc-body details {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 0.55rem 0.9rem; margin: 0.8rem 0;
+  }
+  .doc-body summary { cursor: pointer; font-weight: 600; color: var(--accent-strong); }
+  .doc-body hr { border: none; border-top: 1px solid var(--line); margin: 1.6rem 0; }
+  .doc-body table { margin: 0.9rem 0; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-name">Machine Learning</span>
+      <span class="brand-sub">Machine Learning · NaUKMA</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+      <span aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+      <ul>
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../syllabus.html">Syllabus</a></li>
+        <li><a href="../../syllabus.html#modules">Modules</a></li>
+        <li><a href="../../practices.html">Practical sessions</a></li>
+        <li><a href="../../homeworks.html">Homework</a></li>
+        <li><a href="../../project.html">Mini-project</a></li>
+        <li><a href="../../assessments.html">Assessment</a></li>
+        <li><a href="../../policies.html">Policies</a></li>
+        <li><a href="../../resources.html">Resources</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main" class="container site-main doc-page">
+  <p class="doc-crumb"><a href="../../project.html">&larr; Mini-project</a></p>
+  <article class="doc-body">
+<h1>Mini-project: a complete machine-learning investigation</h1>
+<p><strong>Course:</strong> Machine Learning, National University of Kyiv-Mohyla Academy. <strong>Weight:</strong> 25 percent of the final grade. <strong>Format:</strong> on your own, or in a pair of two students.</p>
+<h2>1. What the project is</h2>
+<p>Carry out a small but <strong>complete</strong> empirical investigation, from formulating the question to producing a reproducible report whose conclusions are properly justified. The project is not a competition for the highest score. It is graded on the quality of your method, not on the size of the number you reach.</p>
+<h2>2. The eleven steps</h2>
+<ol>
+<li><strong>Formulate the question.</strong> State exactly what you are predicting, and why it matters.</li>
+<li><strong>Inspect the data.</strong> Its size, the types of the features, missing values, the distribution of the target, and any obvious problems.</li>
+<li><strong>Build a baseline.</strong> Something simple — a constant prediction, the majority class, a linear model — so that any later improvement can be measured against it.</li>
+<li><strong>Choose the preprocessing.</strong> Justify it, and keep it free of leakage by placing every step inside a pipeline that is fitted within the cross-validation loop.</li>
+<li><strong>Choose the models.</strong> One to three sensible candidates, each with a reason for being there.</li>
+<li><strong>Choose the validation scheme.</strong> The split that is actually valid for your data: plain k-fold, stratified, grouped, or ordered in time.</li>
+<li><strong>Choose the metrics.</strong> Ones that suit the task and the distribution of the classes.</li>
+<li><strong>Compare the experiments.</strong> With tables, curves and summary statistics, not with a single number.</li>
+<li><strong>Analyze the errors.</strong> Where the model fails, and why it fails there.</li>
+<li><strong>State the limitations and the conclusions.</strong> What your results support, and just as importantly what they do not.</li>
+<li><strong>Make the work reproducible.</strong> Fixed random seeds, a notebook that runs from top to bottom, and documented dependencies.</li>
+</ol>
+<h2>3. What you submit</h2>
+<ul>
+<li>A notebook, or a small repository, that runs from beginning to end without intervention.</li>
+<li>A short report, for example a README file, covering the goal, the data, the method, the results, the conclusions and the limitations.</li>
+<li>The results and figures, either embedded in the notebook or kept in a folder of their own.</li>
+<li>Instructions for reproducing the work: the environment, the dependencies, and the commands to run.</li>
+<li>A disclosure of artificial-intelligence use, in more detail than the homework assignments require. Section 5 explains what it should contain.</li>
+<li>A short presentation or demonstration at a practical session, where that is feasible.</li>
+</ul>
+<h2>4. The defense</h2>
+<p>Every project may be briefly defended, in about five to seven minutes for a pair. At least one question is put to each student individually. The defense confirms that the work is yours and that you understand it; it is not scored separately. Defenses take place at the practical session in Week 10.</p>
+<h2>5. Disclosing the use of artificial-intelligence tools</h2>
+<p>Describe, in substance:</p>
+<ul>
+<li>which tools you used, and for what — writing code, debugging, interpreting results, drafting prose;</li>
+<li>how those tools influenced your methodological decisions, if they influenced them at all;</li>
+<li>which parts of the code and the analysis you wrote yourself, or changed substantially;</li>
+<li>what you verified and understood independently.</li>
+</ul>
+<p>You must be able to explain any part of the submitted work. This is checked at the defense.</p>
+<h2>6. Reproducibility</h2>
+<ul>
+<li>Fix the random seed wherever a library allows it.</li>
+<li>Do not use data that somebody following your instructions could not obtain.</li>
+<li>Avoid very large datasets. Nobody should need unusual computing power to rerun your work.</li>
+<li>List the versions of the libraries that matter, either by recording them in the report or by exporting them with <code>pip freeze &gt; requirements.txt</code>.</li>
+</ul>
+<h2>7. The limits of the task</h2>
+<ul>
+<li>This is not a research project. It requires no novel method, no large model, and no training on a graphics card.</li>
+<li>Write as much code as the question needs, and no more.</li>
+<li>The quality of the conclusions counts for more than the number of plots.</li>
+</ul>
+  </article>
+</main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-brand">Machine Learning · NaUKMA</p>
+    <p>Dmytro Kuzmenko, Assistant Professor, Department of Multimedia Systems · <a href="mailto:kuzmenko@ukma.edu.ua">kuzmenko@ukma.edu.ua</a></p>
+    <p>Course materials: <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma">github.com/dmytro-kuzmenko/ml-bsc-naukma</a></p>
+    <p>Course materials are licensed under <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma/blob/main/LICENSE">CC BY 4.0</a>.</p>
+    <p>© <span id="year">2026</span> Machine Learning · NaUKMA</p>
+  </div>
+</footer>
+</body>
+</html>

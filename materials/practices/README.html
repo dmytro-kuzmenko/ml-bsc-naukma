@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Practical sessions 1 to 10 — Machine Learning · NaUKMA</title>
+<meta name="description" content="Overview of the ten practical sessions of the Machine Learning course at NaUKMA.">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<script defer src="../../assets/js/config.js"></script>
+<script defer src="../../assets/js/main.js"></script>
+<style>
+  .doc-page { max-width: 54rem; }
+  .doc-crumb { margin: 0 0 1.1rem; font-size: 0.92rem; }
+  .doc-body h1 { font-size: 1.9rem; border-bottom: 1px solid var(--line); padding-bottom: 0.35rem; }
+  .doc-body h2 { font-size: 1.45rem; }
+  .doc-body h3 { font-size: 1.15rem; }
+  .doc-body .question-meta { margin: 1.3rem 0 0.4rem; }
+  .doc-body blockquote {
+    margin: 1rem 0; padding: 0.6rem 1rem;
+    background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--gold);
+    border-radius: var(--radius); color: var(--muted);
+  }
+  .doc-body blockquote p { margin: 0; }
+  .doc-body pre {
+    background: #f1ede2; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 0.8rem 1rem; overflow-x: auto; font-size: 0.86rem; line-height: 1.5;
+  }
+  .doc-body code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: #f1ede2; border-radius: 3px; padding: 0.08em 0.32em; font-size: 0.88em;
+  }
+  .doc-body pre code { background: none; padding: 0; font-size: 0.86rem; }
+  .doc-body details {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 0.55rem 0.9rem; margin: 0.8rem 0;
+  }
+  .doc-body summary { cursor: pointer; font-weight: 600; color: var(--accent-strong); }
+  .doc-body hr { border: none; border-top: 1px solid var(--line); margin: 1.6rem 0; }
+  .doc-body table { margin: 0.9rem 0; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-name">Machine Learning</span>
+      <span class="brand-sub">Machine Learning · NaUKMA</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+      <span aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+      <ul>
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../syllabus.html">Syllabus</a></li>
+        <li><a href="../../syllabus.html#modules">Modules</a></li>
+        <li><a href="../../practices.html">Practical sessions</a></li>
+        <li><a href="../../homeworks.html">Homework</a></li>
+        <li><a href="../../project.html">Mini-project</a></li>
+        <li><a href="../../assessments.html">Assessment</a></li>
+        <li><a href="../../policies.html">Policies</a></li>
+        <li><a href="../../resources.html">Resources</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main" class="container site-main doc-page">
+  <p class="doc-crumb"><a href="../../practices.html">&larr; Practical sessions</a></p>
+  <article class="doc-body">
+<h1>Practical sessions 1 to 10</h1>
+<p>Machine Learning, National University of Kyiv-Mohyla Academy. Instructor: Dmytro Kuzmenko (<a href="mailto:kuzmenko@ukma.edu.ua">kuzmenko@ukma.edu.ua</a>).</p>
+<h2>What these sessions are for</h2>
+<p>There are ten practical sessions, one for each week of the course, and each one lasts about two academic hours. They exist to build skill and to prepare you for the examinations. <strong>They are not graded.</strong> Every notebook is built from the same five sections.</p>
+<ul>
+<li><strong>Warm-up.</strong> Two to four quick diagnostic questions that bring your existing intuitions to the surface, including some intuitions that turn out to be wrong.</li>
+<li><strong>Guided exercise.</strong> One worked experiment, already executed, with questions placed at every step. The steps follow the loop that structures every piece of work in this course: the experiment you run, the decision you make, the evidence you produce, the interpretation you draw, and the counterfactual you predict.</li>
+<li><strong>Discussion questions.</strong> Four to six questions to talk through in class. No code is required for them.</li>
+<li><strong>Challenge.</strong> One small experiment or diagnosis to attempt on your own or with a partner.</li>
+<li><strong>Takeaways.</strong> Four to seven statements that summarize the reasoning patterns worth carrying forward.</li>
+</ul>
+<p>Everything runs on synthetic data and on scikit-learn alone. Nothing has to be downloaded, no external dataset is used, and no graphics card is needed. Each notebook finishes in under two minutes.</p>
+<h2>How to open a notebook</h2>
+<p>On your own machine, open the notebook file in Jupyter, using any kernel that has <code>numpy</code>, <code>pandas</code>, <code>matplotlib</code> and <code>scikit-learn</code> installed.</p>
+<p>In Google Colab, which is the simplest option for most students, open the following address:</p>
+<pre><code>https://colab.research.google.com/github/dmytro-kuzmenko/ml-bsc-naukma/blob/main/materials/practices/p01/p01.ipynb
+</code></pre>
+<p>To reach the other sessions, replace <code>p01/p01.ipynb</code> with <code>p02/p02.ipynb</code> and so on, up to <code>p10/p10.ipynb</code>.</p>
+<h2>The ten sessions, in order</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Session</th>
+<th>Topic</th>
+<th>Week</th>
+<th>Module</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Practical 1</td>
+<td>Designing an experiment, and the simplest forms of data leakage</td>
+<td>1</td>
+<td>What Does It Mean to Learn?</td>
+</tr>
+<tr>
+<td>Practical 2</td>
+<td>Diagnosing a regression model, and model complexity</td>
+<td>2</td>
+<td>Learning a Function (Regression)</td>
+</tr>
+<tr>
+<td>Practical 3</td>
+<td>Classification metrics, decision thresholds and class imbalance</td>
+<td>3</td>
+<td>Learning a Boundary (Classification)</td>
+</tr>
+<tr>
+<td>Practical 4</td>
+<td>Trees and ensembles: complexity against generalization</td>
+<td>4</td>
+<td>Trees and Ensembles</td>
+</tr>
+<tr>
+<td>Practical 5</td>
+<td>Support vector machines, feature scaling, margins and kernels</td>
+<td>5</td>
+<td>Margins, Similarity and Kernels</td>
+</tr>
+<tr>
+<td>Practical 6</td>
+<td>Cross-validation, tuning, pipelines and leakage</td>
+<td>6</td>
+<td>Evaluation Done Properly</td>
+</tr>
+<tr>
+<td>Practical 7</td>
+<td>Clustering and principal component analysis</td>
+<td>7</td>
+<td>Finding Structure Without Labels</td>
+</tr>
+<tr>
+<td>Practical 8</td>
+<td>Gradient descent and a small neural network</td>
+<td>8</td>
+<td>Optimization and Neural Networks</td>
+</tr>
+<tr>
+<td>Practical 9</td>
+<td>Debugging a model and analyzing its errors</td>
+<td>9</td>
+<td>Diagnosing Machine-Learning Systems</td>
+</tr>
+<tr>
+<td>Practical 10</td>
+<td>A complete case study, and a clinic for the mini-project</td>
+<td>10</td>
+<td>Machine Learning in Practice</td>
+</tr>
+</tbody>
+</table></div>
+<p>Work through the sessions in order. Each one reuses the reasoning of the ones before it: baselines, the gap between training and validation performance, leakage, and diagnosis. The first five build the core experimental habits; the last five apply those habits to evaluation, to learning without labels, to neural networks, and to diagnosing a system as a whole.</p>
+<h2>How the sessions relate to your grade</h2>
+<p>The practical sessions carry no points of their own. The grade comes from the homework assignments, which are worth 30 points, the midterm examination, worth 15, the mini-project, worth 25, and the final examination, worth 30.</p>
+<p>What the sessions do is prepare you for the midterm and the final examination, because those examinations ask exactly the kind of question the sessions rehearse: read a table of training and test scores and say what it means, diagnose a plot of residuals, choose a metric for a stated cost scenario, find the leak in a described pipeline, or predict what a change to one hyperparameter would do.</p>
+<p>The discussion questions are meant to be answered out loud. Practice saying your reasoning aloud, because the final examination rewards a precise and structured explanation far more than a recited definition. The answer cells in the notebooks are deliberately left empty: fill them in yourself first, then compare your answers with your classmates and with the instructor.</p>
+<h2>A reminder about artificial-intelligence tools</h2>
+<p>Course policy permits these tools for homework assignments and for the mini-project, provided you disclose their use; responsibility for the submitted work remains entirely with you. The purpose of the practical sessions, however, is to develop your own reasoning, so answer the questions before you consult any tool. These tools are <strong>not permitted</strong> during the midterm or the final examination.</p>
+  </article>
+</main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-brand">Machine Learning · NaUKMA</p>
+    <p>Dmytro Kuzmenko, Assistant Professor, Department of Multimedia Systems · <a href="mailto:kuzmenko@ukma.edu.ua">kuzmenko@ukma.edu.ua</a></p>
+    <p>Course materials: <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma">github.com/dmytro-kuzmenko/ml-bsc-naukma</a></p>
+    <p>Course materials are licensed under <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma/blob/main/LICENSE">CC BY 4.0</a>.</p>
+    <p>© <span id="year">2026</span> Machine Learning · NaUKMA</p>
+  </div>
+</footer>
+</body>
+</html>

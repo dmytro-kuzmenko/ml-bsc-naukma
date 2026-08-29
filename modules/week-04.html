@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 4, Trees and Ensembles — Machine Learning · NaUKMA</title>
+<meta name="description" content="Module 4 of the Machine Learning course at the National University of Kyiv-Mohyla Academy, Trees and Ensembles: what it covers, what you will be able to do afterwards, and its materials.">
+<link rel="stylesheet" href="../assets/css/site.css">
+<script defer src="../assets/js/config.js"></script>
+<script defer src="../assets/js/main.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../index.html">
+      <span class="brand-name">Machine Learning</span>
+      <span class="brand-sub">Machine Learning · NaUKMA</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+      <span aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../syllabus.html">Syllabus</a></li>
+        <li><a href="../syllabus.html#modules">Modules</a></li>
+        <li><a href="../practices.html">Practical sessions</a></li>
+        <li><a href="../homeworks.html">Homework</a></li>
+        <li><a href="../project.html">Mini-project</a></li>
+        <li><a href="../assessments.html">Assessment</a></li>
+        <li><a href="../policies.html">Policies</a></li>
+        <li><a href="../resources.html">Resources</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main" class="site-main">
+<div class="container">
+  <nav class="small" aria-label="Breadcrumbs">
+    <p class="small"><a href="../index.html">Home</a> · <a href="../syllabus.html#modules">Syllabus</a></p>
+  </nav>
+  <section class="hero">
+    <p class="kicker">Week 4 of 10</p>
+    <h1>Trees and Ensembles</h1>
+    <p class="subtitle">Decision trees, random forests, gradient boosting, and how to read feature importances without being misled.</p>
+    <p class="mod-meta">
+      <span>Practical session 4</span>
+      <span>Homework 3</span>
+      <span><a href="../assessments.html">Midterm examination, after Module 5</a></span>
+    </p>
+  </section>
+
+  <section class="section">
+    <h2>What this module covers</h2>
+    <ul class="topic-list">
+      <li>Decision trees: the rules they learn, the effect of depth, and how they overfit</li>
+      <li>The complexity curve for a tree, drawn against its maximum depth</li>
+      <li>Random forests, and where their stability actually comes from</li>
+      <li>Gradient boosting, and how it differs from averaging</li>
+      <li>Feature importance: what it genuinely shows, and the circumstances in which it lies</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>What you will be able to do afterwards</h2>
+    <p>By the end of this module you should be able to:</p>
+    <ul class="obj-list">
+      <li>explain why a deep tree overfits</li>
+      <li>justify why a random forest generalizes better than any single tree in it</li>
+      <li>compare a tree, a forest and a boosted model on honestly measured training and validation scores</li>
+      <li>interpret a table of feature importances with appropriate caution</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>Materials</h2>
+    <dl>
+      <div class="material-row">
+        <dt>Practical session</dt>
+        <dd><div class="nb-link" data-nb="materials/practices/p04/p04.ipynb"><a href="../materials/practices/p04/p04.ipynb">Practical 4</a> — Trees and ensembles: complexity against generalization</div></dd>
+      </div>
+      <div class="material-row">
+        <dt>Homework</dt>
+        <dd><div class="nb-link" data-nb="materials/homeworks/ha03/ha03.ipynb"><a href="../materials/homeworks/ha03/ha03.ipynb">Homework 3</a> — Trees, ensembles and support vector machines</div></dd>
+      </div>
+      <div class="material-row">
+        <dt>Lecture</dt>
+        <dd><span class="muted small">The slides for this lecture will be published during the semester</span></dd>
+      </div>
+    </dl>
+  </section>
+
+  <nav class="module-nav" aria-label="Module navigation">
+    <span><a href="week-03.html">Week 3, the previous module</a></span>
+    <span class="next"><a href="week-05.html">Week 5, the next module</a></span>
+  </nav>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-brand">Machine Learning · NaUKMA</p>
+    <p>Dmytro Kuzmenko, Assistant Professor, Department of Multimedia Systems · <a href="mailto:kuzmenko@ukma.edu.ua">kuzmenko@ukma.edu.ua</a></p>
+    <p>Course materials: <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma">github.com/dmytro-kuzmenko/ml-bsc-naukma</a></p>
+    <p>Course materials are licensed under <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma/blob/main/LICENSE">CC BY 4.0</a>.</p>
+    <p>© <span id="year">2026</span> Machine Learning · NaUKMA</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gradient descent and the learning rate — an interactive demonstration · Machine Learning (NaUKMA)</title>
+<meta name="description" content="An interactive demonstration: step gradient descent across a quadratic loss surface and see how the learning rate governs speed, oscillation and divergence.">
+<link rel="stylesheet" href="../assets/css/site.css">
+<style>
+  .demo-header {
+    background: var(--accent-strong);
+    padding: 1.1rem 0 1.2rem;
+    margin-bottom: 0.4rem;
+  }
+  .demo-header .back-link {
+    color: #d9e4f0;
+    text-decoration: none;
+    font-size: 0.92rem;
+  }
+  .demo-header .back-link:hover { color: #fff; text-decoration: underline; }
+  .demo-header h1 { color: #fff; margin: 0.4rem 0 0; font-size: 1.65rem; }
+  .demo-header .kicker { color: #f2d98c; margin-bottom: 0; }
+  .demo-intro { max-width: 46rem; }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem 1.8rem;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.9rem 1.1rem 1rem;
+    margin: 1.1rem 0 0.9rem;
+    align-items: flex-end;
+  }
+  .control { min-width: 190px; }
+  .control label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.88rem;
+    margin-bottom: 0.25rem;
+  }
+  .control .value {
+    font-weight: 700;
+    color: var(--accent-strong);
+    font-variant-numeric: tabular-nums;
+  }
+  input[type="range"] { width: 100%; max-width: 230px; display: block; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+  .figure { margin: 0.9rem 0 0.6rem; }
+  canvas.demo-canvas {
+    width: 100%;
+    height: 430px;
+    display: block;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .figure figcaption { font-size: 0.88rem; color: var(--muted); margin-top: 0.45rem; }
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+  .metric {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.45rem 0.55rem;
+    text-align: center;
+  }
+  .metric .k {
+    font-size: 0.74rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .metric .v {
+    font-size: 1.12rem;
+    font-weight: 700;
+    color: var(--accent-strong);
+    font-variant-numeric: tabular-nums;
+  }
+  .verdict {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 0.7rem 1rem;
+    margin: 1rem 0;
+  }
+  .what-to-try {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.9rem 1.2rem 1rem;
+    margin-top: 1.4rem;
+  }
+  .what-to-try h2 { margin-top: 0.2em; }
+  .what-to-try ol { margin: 0; padding-left: 1.25rem; }
+  .what-to-try li { margin-bottom: 0.45rem; }
+  @media (max-width: 560px) {
+    canvas.demo-canvas { height: 300px; }
+    .control { min-width: 100%; }
+    input[type="range"] { max-width: 100%; }
+  }
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="demo-header">
+  <div class="container">
+    <a class="back-link" href="../index.html">Return to the course home page</a>
+    <p class="kicker">Module 8 · Optimization and Neural Networks</p>
+    <h1>Gradient descent and the learning rate</h1>
+  </div>
+</header>
+<main id="main" class="container site-main">
+
+  <p class="demo-intro lead">
+    Gradient descent is minimizing the quadratic loss <code>f(x, y) = (x&minus;1)&sup2; + 2(y+1)&sup2; + 0.6(x&minus;1)(y+1)</code>, whose minimum lies at (1, &minus;1). The learning-rate slider moves on a logarithmic scale. The contours in the background are the loss surface, and the dark path is the route that gradient descent takes from its fixed starting point at (3.0, &minus;3.2).
+  </p>
+
+  <section class="controls" aria-label="Controls for this demonstration">
+    <div class="control">
+      <label for="lr">Learning rate <span class="value" id="lr-val">0.100</span></label>
+      <input type="range" id="lr" min="-3" max="0" step="0.02" value="-1"
+             aria-label="Learning rate on a logarithmic scale from 0.001 to 1" aria-describedby="lr-hint">
+      <span id="lr-hint" class="muted small">Logarithmic scale from 0.001 to 1.0; the default is 0.1</span>
+    </div>
+    <div class="btn-row" style="min-width:220px">
+      <button type="button" class="btn btn-sm" id="btn-step">One step</button>
+      <button type="button" class="btn btn-sm" id="btn-auto">Run to the end</button>
+      <button type="button" class="btn btn-sm btn-ghost" id="btn-reset">Start again</button>
+    </div>
+  </section>
+
+  <figure class="figure">
+    <canvas id="plot" class="demo-canvas" width="700" height="430"
+      aria-label="Contour plot of a quadratic loss surface with a gradient descent trajectory">
+      A drawing of the contours of the loss surface together with the path taken by gradient descent.
+      Your browser does not support this drawing.
+    </canvas>
+    <figcaption>
+      Darker blue means a lower loss and lighter shading a higher one. The square marks the minimum at
+      (1, &minus;1), the circle marks where the optimizer currently stands, and the path traces every
+      position it has visited.
+    </figcaption>
+  </figure>
+
+  <section class="metrics" aria-label="Live values from the descent" aria-live="polite">
+    <div class="metric"><div class="k">Steps</div><div class="v" id="m-steps">0</div></div>
+    <div class="metric"><div class="k">Loss</div><div class="v" id="m-loss">&ndash;</div></div>
+    <div class="metric"><div class="k">Gradient norm</div><div class="v" id="m-grad">&ndash;</div></div>
+    <div class="metric"><div class="k">What is happening</div><div class="v" id="m-status" style="font-size:0.85rem">not started yet</div></div>
+  </section>
+
+  <p id="verdict" class="verdict" role="status" aria-live="polite">Choose a learning rate, then take a single step or run the descent to the end.</p>
+
+  <section class="what-to-try">
+    <h2>Things worth trying</h2>
+    <ol>
+      <li>Set the learning rate to 0.001, at the far left of the slider. Running to the end takes 500 steps and still does not arrive at the minimum: a step that is too small simply makes progress too slow.</li>
+      <li>Set it to the default of 0.1. The descent converges in about 54 steps. This is the stable regime.</li>
+      <li>Set it to 0.4. The path now swings from one side of the valley to the other before it settles. This is still stable, but it is close to the limit.</li>
+      <li>Set it to 0.6, and then to 1.0. Each step overshoots, the loss grows without bound, and the trajectory leaves the plot within a few steps. This is divergence.</li>
+      <li>Return to 0.1 and take the steps one at a time, watching the norm of the gradient. It shrinks as the current point approaches the minimum, which is why the later steps are shorter than the earlier ones even though the learning rate never changes.</li>
+    </ol>
+    <p class="muted small" style="margin-top:0.7rem">
+      One caveat. This demonstration computes the gradient exactly, over the whole dataset at once. When training uses minibatches, the gradient is estimated from a small subset of the data, so the path jitters around the minimum instead of stopping cleanly. The intuition about the learning rate carries over unchanged; there is simply noise on top of it.
+    </p>
+  </section>
+</main>
+<script src="../assets/js/demos/common.js"></script>
+<script>
+'use strict';
+
+(function () {
+  var ML = window.ML;
+
+  var XMIN = 1, YMIN = -1;
+  var START = [3.0, -3.2];
+  var MAX_STEPS = 500;
+
+  function loss(x, y) {
+    var u = x - XMIN, v = y - YMIN;
+    return u * u + 2 * v * v + 0.6 * u * v;
+  }
+  function grad(x, y) {
+    var u = x - XMIN, v = y - YMIN;
+    return [2 * u + 0.6 * v, 0.6 * u + 4 * v];
+  }
+
+  var DOM = { x0: -4, x1: 5, y0: -6.5, y1: 5.5 };
+  var lrSlider = ML.el('lr');
+  var canvas = ML.el('plot');
+  var traj = [], cur = null, steps = 0, state = 'idle';
+
+  function lrValue() { return Math.pow(10, +lrSlider.value); }
+
+  function reset() {
+    traj = [];
+    cur = [START[0], START[1]];
+    steps = 0;
+    state = 'running';
+    update();
+  }
+
+  function stepOnce() {
+    if (state !== 'running') return;
+    var lr = lrValue();
+    var g = grad(cur[0], cur[1]);
+    var nx = cur[0] - lr * g[0], ny = cur[1] - lr * g[1];
+    traj.push([cur[0], cur[1]]);
+    cur = [nx, ny];
+    steps++;
+    var gn = Math.hypot(g[0], g[1]);
+    if (gn < 1e-4) {
+      state = 'converged';
+    } else if (Math.abs(nx) > 100 || Math.abs(ny) > 100 || !isFinite(loss(nx, ny)) || loss(nx, ny) > 1e6) {
+      state = 'diverged';
+    } else if (steps >= MAX_STEPS) {
+      state = 'maxsteps';
+    }
+    update();
+  }
+
+  var autoTimer = null;
+  function autoRun() {
+    if (autoTimer) return;
+    autoTimer = setInterval(function () {
+      if (state !== 'running') { clearInterval(autoTimer); autoTimer = null; return; }
+      stepOnce();
+    }, 30);
+  }
+
+  ML.el('btn-step').addEventListener('click', stepOnce);
+  ML.el('btn-auto').addEventListener('click', autoRun);
+  ML.el('btn-reset').addEventListener('click', reset);
+
+  // contour color ramp on log10(loss); returns [r, g, b] in 0-255
+  function contourColor(f) {
+    var t = (Math.log10(f + 1e-3) - Math.log10(0.03)) / (Math.log10(80) - Math.log10(0.03));
+    t = ML.clamp(t, 0, 1);
+    var stops = [[250, 246, 230], [217, 237, 230], [140, 199, 230], [64, 128, 199], [31, 61, 128]];
+    var seg = t * (stops.length - 1), i = Math.floor(seg), f2 = seg - i;
+    var a = stops[i], b = stops[Math.min(i + 1, stops.length - 1)];
+    return [
+      Math.round(a[0] + (b[0] - a[0]) * f2),
+      Math.round(a[1] + (b[1] - a[1]) * f2),
+      Math.round(a[2] + (b[2] - a[2]) * f2)
+    ];
+  }
+
+  var off = document.createElement('canvas');
+  var GW = 200, GH = 132;
+  off.width = GW; off.height = GH;
+
+  function draw() {
+    var w = canvas.clientWidth || 700, h = canvas.clientHeight || 430;
+    var ctx = ML.setupCanvas(canvas, w, h);
+    var pad = { l: 46, r: 18, t: 16, b: 36 };
+    function X(x) { return pad.l + (x - DOM.x0) / (DOM.x1 - DOM.x0) * (w - pad.l - pad.r); }
+    function Y(y) { return pad.t + (DOM.y1 - y) / (DOM.y1 - DOM.y0) * (h - pad.t - pad.b); }
+
+    // contour field
+    var octx = off.getContext('2d');
+    var img = octx.createImageData(GW, GH), dat = img.data;
+    for (var gy = 0; gy < GH; gy++) {
+      for (var gx = 0; gx < GW; gx++) {
+        var xx = DOM.x0 + (gx + 0.5) / GW * (DOM.x1 - DOM.x0);
+        var yy = DOM.y1 - (gy + 0.5) / GH * (DOM.y1 - DOM.y0);
+        var col = contourColor(loss(xx, yy));
+        var idx = (gy * GW + gx) * 4;
+        dat[idx] = col[0]; dat[idx + 1] = col[1]; dat[idx + 2] = col[2]; dat[idx + 3] = 255;
+      }
+    }
+    octx.putImageData(img, 0, 0);
+    ctx.drawImage(off, X(DOM.x0), Y(DOM.y1), X(DOM.x1) - X(DOM.x0), Y(DOM.y0) - Y(DOM.y1));
+
+    // axes labels
+    ctx.fillStyle = '#5f5c53'; ctx.font = '11px system-ui, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('x', w - 6, h - 12);
+    ctx.fillText('y', 12, pad.t + 8);
+
+    // minimum marker
+    ctx.strokeStyle = '#23211c'; ctx.lineWidth = 1.5;
+    ctx.strokeRect(X(XMIN) - 8, Y(YMIN) - 8, 16, 16);
+
+    // trajectory
+    if (traj.length > 0) {
+      ctx.strokeStyle = 'rgba(35,33,28,0.55)'; ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      ctx.moveTo(X(traj[0][0]), Y(traj[0][1]));
+      for (var i = 1; i < traj.length; i++) ctx.lineTo(X(traj[i][0]), Y(traj[i][1]));
+      ctx.lineTo(X(cur[0]), Y(cur[1]));
+      ctx.stroke();
+      ctx.fillStyle = 'rgba(35,33,28,0.6)';
+      for (var j = 0; j < traj.length; j++) {
+        ctx.beginPath();
+        ctx.arc(X(traj[j][0]), Y(traj[j][1]), 2.1, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+    }
+    // current point
+    if (cur) {
+      ctx.beginPath();
+      ctx.arc(X(cur[0]), Y(cur[1]), 6, 0, 2 * Math.PI);
+      ctx.fillStyle = '#c05a2e';
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#fff';
+      ctx.stroke();
+    }
+  }
+
+  function update() {
+    ML.el('lr-val').textContent = lrValue().toFixed(3);
+    if (!cur) { reset(); return; }
+    ML.el('m-steps').textContent = steps;
+    ML.el('m-loss').textContent = ML.fmt(loss(cur[0], cur[1]), 4);
+    var g = grad(cur[0], cur[1]);
+    ML.el('m-grad').textContent = ML.fmt(Math.hypot(g[0], g[1]), 4);
+    var STATE_LABEL = {
+      idle: 'not started yet',
+      running: 'still descending',
+      converged: 'it has converged',
+      diverged: 'it has diverged',
+      maxsteps: 'stopped at the step limit'
+    };
+    ML.el('m-status').textContent = STATE_LABEL[state] || state;
+
+    var lr = lrValue(), txt;
+    if (state === 'converged') {
+      txt = 'Converged after ' + steps + ' steps. The norm of the gradient fell below 0.0001 close to the minimum at (1, &minus;1).';
+    } else if (state === 'diverged') {
+      txt = 'This has diverged. At a learning rate of ' + lr.toFixed(3) + ' every step overshoots, the loss grows without bound, and the path leaves the plot entirely.';
+    } else if (state === 'maxsteps') {
+      if (loss(cur[0], cur[1]) > 0.05) {
+        txt = 'It ran for ' + MAX_STEPS + ' steps without converging. At a learning rate of ' + lr.toFixed(3) +
+              ' the path swings back and forth near the limit of stability. Try a smaller learning rate.';
+      } else {
+        txt = 'It ran for ' + MAX_STEPS + ' steps and is still creeping along. A learning rate of ' + lr.toFixed(3) +
+              ' is too small for this problem; something between 0.05 and 0.2 works far better.';
+      }
+    } else if (steps === 0) {
+      txt = 'The learning rate is ' + lr.toFixed(3) + '. Take a single step to see one update, or run the descent to the end.';
+    } else if (lr < 0.01) {
+      txt = 'A learning rate of ' + lr.toFixed(3) + ' is small. Each step moves the point only a little, so convergence takes a long time.';
+    } else if (lr > 0.45) {
+      txt = 'A learning rate of ' + lr.toFixed(3) + ' is large. Watch for steps that overshoot the valley and for the path swinging from side to side.';
+    } else {
+      txt = 'Learning rate ' + lr.toFixed(3) + ': steady progress toward the minimum.';
+    }
+    verdictEl.innerHTML = txt;
+    draw();
+  }
+
+  var verdictEl = ML.el('verdict');
+  ML.bindSlider('lr', function () { if (cur) update(); });
+  window.addEventListener('resize', draw);
+  reset();
+})();
+
+</script>
+</body>
+</html>

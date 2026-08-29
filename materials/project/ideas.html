@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini-project — ideas and data — Machine Learning · NaUKMA</title>
+<meta name="description" content="Suggested directions and data sources for the mini-project of the Machine Learning course at NaUKMA.">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<script defer src="../../assets/js/config.js"></script>
+<script defer src="../../assets/js/main.js"></script>
+<style>
+  .doc-page { max-width: 54rem; }
+  .doc-crumb { margin: 0 0 1.1rem; font-size: 0.92rem; }
+  .doc-body h1 { font-size: 1.9rem; border-bottom: 1px solid var(--line); padding-bottom: 0.35rem; }
+  .doc-body h2 { font-size: 1.45rem; }
+  .doc-body h3 { font-size: 1.15rem; }
+  .doc-body .question-meta { margin: 1.3rem 0 0.4rem; }
+  .doc-body blockquote {
+    margin: 1rem 0; padding: 0.6rem 1rem;
+    background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--gold);
+    border-radius: var(--radius); color: var(--muted);
+  }
+  .doc-body blockquote p { margin: 0; }
+  .doc-body pre {
+    background: #f1ede2; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 0.8rem 1rem; overflow-x: auto; font-size: 0.86rem; line-height: 1.5;
+  }
+  .doc-body code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: #f1ede2; border-radius: 3px; padding: 0.08em 0.32em; font-size: 0.88em;
+  }
+  .doc-body pre code { background: none; padding: 0; font-size: 0.86rem; }
+  .doc-body details {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 0.55rem 0.9rem; margin: 0.8rem 0;
+  }
+  .doc-body summary { cursor: pointer; font-weight: 600; color: var(--accent-strong); }
+  .doc-body hr { border: none; border-top: 1px solid var(--line); margin: 1.6rem 0; }
+  .doc-body table { margin: 0.9rem 0; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-name">Machine Learning</span>
+      <span class="brand-sub">Machine Learning · NaUKMA</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+      <span aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+      <ul>
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../syllabus.html">Syllabus</a></li>
+        <li><a href="../../syllabus.html#modules">Modules</a></li>
+        <li><a href="../../practices.html">Practical sessions</a></li>
+        <li><a href="../../homeworks.html">Homework</a></li>
+        <li><a href="../../project.html">Mini-project</a></li>
+        <li><a href="../../assessments.html">Assessment</a></li>
+        <li><a href="../../policies.html">Policies</a></li>
+        <li><a href="../../resources.html">Resources</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main" class="container site-main doc-page">
+  <p class="doc-crumb"><a href="../../project.html">&larr; Mini-project</a></p>
+  <article class="doc-body">
+<h1>Mini-project: directions and data</h1>
+<p>Choose one of the directions below, or propose one of your own with the instructor's approval. Every dataset recommended here is small and loads from a stable source. If a dataset is not built into scikit-learn, include a reliable way of downloading it in the notebook, together with its attribution.</p>
+<h2>Ten suggested directions</h2>
+<ol>
+<li>
+<p><strong>Classifying wines.</strong> The <code>load_wine</code> dataset in scikit-learn: thirteen features and three classes. It suits pipelines, feature scaling, model comparison and principal component analysis. <em>The question to answer:</em> does this data need scaling, and how many principal components are enough to preserve the information that matters?</p>
+</li>
+<li>
+<p><strong>Diagnosing breast cancer.</strong> The <code>load_breast_cancer</code> dataset in scikit-learn, a reasonably balanced two-class problem. <em>The question to answer:</em> which metric reflects the real cost of each kind of error, and how does moving the decision threshold trade precision against recall?</p>
+</li>
+<li>
+<p><strong>Handwritten digits.</strong> The <code>load_digits</code> dataset in scikit-learn: 1797 images of eight pixels by eight. <em>The question to answer:</em> which pairs of digits are confused most often, and how many principal components are needed to retain 95 percent of the variance? Classifying them without a neural network, using nearest neighbors, a support vector machine or a tree, is perfectly appropriate.</p>
+</li>
+<li>
+<p><strong>Predicting house prices.</strong> The <code>fetch_california_housing</code> dataset in scikit-learn: roughly twenty thousand rows, and a regression target. <em>The question to answer:</em> how does geographical grouping affect validation, once the split is made by region rather than at random, and which features matter most when they are ranked by permutation importance?</p>
+</li>
+<li>
+<p><strong>Measurements of living things.</strong> The <code>penguins</code> dataset that ships with seaborn, or any comparable table. <em>The question to answer:</em> can the species be predicted from body measurements alone, and what does clustering the data without its labels add to that picture?</p>
+</li>
+<li>
+<p><strong>A small amount of text.</strong> A modest collection of short documents in two to four categories, for example a subset of <code>fetch_20newsgroups</code> in scikit-learn, represented by term frequency and inverse document frequency and classified with logistic regression. <em>The question to answer:</em> how does that representation behave in practice, and which words carry the most information?</p>
+</li>
+<li>
+<p><strong>A short time series.</strong> Data with a dependence on time, such as weather or traffic measurements. <em>The question to answer:</em> why does this data need a split that respects the order of time, and how much more conservative is an honest evaluation than a random split?</p>
+</li>
+<li>
+<p><strong>A synthetic grouped dataset.</strong> Generate data with a group structure, for example several measurements taken from each patient. <em>The question to answer:</em> what happens to the estimate of quality when the members of a group are allowed to fall on both sides of the split, that is, when grouped cross-validation is replaced by ordinary cross-validation?</p>
+</li>
+<li>
+<p><strong>A small set of images.</strong> Images that can be turned into feature vectors, for instance raw pixels followed by a projection onto principal components, and then classified with a classical method. <em>The question to answer:</em> how much of the information needed for classification survives that compression?</p>
+</li>
+<li>
+<p><strong>A dataset of your own.</strong> Subject to the instructor's approval. It must be small, legally usable, and clearly attributed.</p>
+</li>
+</ol>
+<h2>How to judge whether a dataset is suitable</h2>
+<ul>
+<li><strong>Size.</strong> Up to roughly fifty to one hundred thousand rows, or any equivalent workload that finishes on a laptop in minutes.</li>
+<li><strong>Provenance.</strong> Its origin is known and its attribution is clear.</li>
+<li><strong>Interest.</strong> It presents a genuine methodological difficulty: imbalance between the classes, a group structure, noise, or strongly correlated features.</li>
+<li><strong>Cost.</strong> It does not require a graphics card.</li>
+</ul>
+  </article>
+</main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-brand">Machine Learning · NaUKMA</p>
+    <p>Dmytro Kuzmenko, Assistant Professor, Department of Multimedia Systems · <a href="mailto:kuzmenko@ukma.edu.ua">kuzmenko@ukma.edu.ua</a></p>
+    <p>Course materials: <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma">github.com/dmytro-kuzmenko/ml-bsc-naukma</a></p>
+    <p>Course materials are licensed under <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma/blob/main/LICENSE">CC BY 4.0</a>.</p>
+    <p>© <span id="year">2026</span> Machine Learning · NaUKMA</p>
+  </div>
+</footer>
+</body>
+</html>

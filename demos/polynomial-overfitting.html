@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Polynomial regression and overfitting — an interactive demonstration · Machine Learning (NaUKMA)</title>
+<meta name="description" content="An interactive demonstration: fit polynomials of increasing degree to noisy data and watch underfitting turn into overfitting.">
+<link rel="stylesheet" href="../assets/css/site.css">
+<style>
+  .demo-header {
+    background: var(--accent-strong);
+    padding: 1.1rem 0 1.2rem;
+    margin-bottom: 0.4rem;
+  }
+  .demo-header .back-link {
+    color: #d9e4f0;
+    text-decoration: none;
+    font-size: 0.92rem;
+  }
+  .demo-header .back-link:hover { color: #fff; text-decoration: underline; }
+  .demo-header h1 { color: #fff; margin: 0.4rem 0 0; font-size: 1.65rem; }
+  .demo-header .kicker { color: #f2d98c; margin-bottom: 0; }
+  .demo-intro { max-width: 46rem; }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem 1.8rem;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.9rem 1.1rem 1rem;
+    margin: 1.1rem 0 0.9rem;
+    align-items: flex-end;
+  }
+  .control { min-width: 190px; }
+  .control label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.88rem;
+    margin-bottom: 0.25rem;
+  }
+  .control .value {
+    font-weight: 700;
+    color: var(--accent-strong);
+    font-variant-numeric: tabular-nums;
+  }
+  input[type="range"] { width: 100%; max-width: 230px; display: block; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+  .figure { margin: 0.9rem 0 0.6rem; }
+  canvas.demo-canvas {
+    width: 100%;
+    height: 430px;
+    display: block;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .figure figcaption { font-size: 0.88rem; color: var(--muted); margin-top: 0.45rem; }
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+  .metric {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.45rem 0.55rem;
+    text-align: center;
+  }
+  .metric .k {
+    font-size: 0.74rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .metric .v {
+    font-size: 1.12rem;
+    font-weight: 700;
+    color: var(--accent-strong);
+    font-variant-numeric: tabular-nums;
+  }
+  .verdict {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 0.7rem 1rem;
+    margin: 1rem 0;
+  }
+  .what-to-try {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.9rem 1.2rem 1rem;
+    margin-top: 1.4rem;
+  }
+  .what-to-try h2 { margin-top: 0.2em; }
+  .what-to-try ol { margin: 0; padding-left: 1.25rem; }
+  .what-to-try li { margin-bottom: 0.45rem; }
+  @media (max-width: 560px) {
+    canvas.demo-canvas { height: 300px; }
+    .control { min-width: 100%; }
+    input[type="range"] { max-width: 100%; }
+  }
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="demo-header">
+  <div class="container">
+    <a class="back-link" href="../index.html">Return to the course home page</a>
+    <p class="kicker">Module 2 · Learning a Function (Regression)</p>
+    <h1>Polynomial regression and overfitting</h1>
+  </div>
+</header>
+<main id="main" class="container site-main">
+
+  <p class="demo-intro lead">
+    A polynomial is fitted by least squares to noisy one-dimensional data drawn from <code>y = sin(2&pi;x) + noise</code>. The first slider sets the complexity of the model and the second sets how much training data is available. Seventy percent of the points are used for training and the remaining thirty are held back for testing, so you can watch underfitting turn into overfitting as the degree rises.
+  </p>
+
+  <section class="controls" aria-label="Controls for this demonstration">
+    <div class="control">
+      <label for="degree">Polynomial degree <span class="value" id="degree-val">3</span></label>
+      <input type="range" id="degree" min="1" max="15" step="1" value="3"
+             aria-label="Polynomial degree" aria-describedby="degree-hint">
+      <span id="degree-hint" class="muted small">From 1 to 15; the default is 3</span>
+    </div>
+    <div class="control">
+      <label for="ntrain">Number of data points <span class="value" id="ntrain-val">80</span></label>
+      <input type="range" id="ntrain" min="20" max="200" step="5" value="80"
+             aria-label="Training set size" aria-describedby="ntrain-hint">
+      <span id="ntrain-hint" class="muted small">From 20 to 200 points, of which 70 percent are used for training</span>
+    </div>
+  </section>
+
+  <figure class="figure">
+    <canvas id="plot" class="demo-canvas" width="700" height="430"
+      aria-label="The training and test points, with the fitted polynomial curve drawn through them">
+      An interactive drawing of the training and test points together with the fitted polynomial curve.
+      Your browser does not support the HTML5 canvas element.
+    </canvas>
+    <figcaption>
+      The blue dots are training points, the orange dots are test points, and the dark curve is the fitted polynomial. The horizontal dashed line marks the noise floor: with a noise standard deviation of 0.18, no model can drive the mean squared error below about 0.032.
+    </figcaption>
+  </figure>
+
+  <section class="metrics" aria-label="Live error measurements" aria-live="polite">
+    <div class="metric"><div class="k">Mean squared error, training</div><div class="v" id="train-mse">&ndash;</div></div>
+    <div class="metric"><div class="k">Mean squared error, test</div><div class="v" id="test-mse">&ndash;</div></div>
+    <div class="metric"><div class="k">Training points</div><div class="v" id="n-train">&ndash;</div></div>
+    <div class="metric"><div class="k">Test points</div><div class="v" id="n-test">&ndash;</div></div>
+    <div class="metric"><div class="k">Degree actually fitted</div><div class="v" id="fit-deg">&ndash;</div></div>
+  </section>
+
+  <div class="metrics" style="margin-top:0" aria-label="Bars comparing the two errors">
+    <div class="metric" style="grid-column:1/-1; text-align:left">
+      <div class="k">Error on the training data</div>
+      <div style="background:var(--line-soft); border-radius:3px; height:12px; margin:4px 0 8px">
+        <div id="train-bar" style="width:0%; height:12px; background:var(--accent); border-radius:3px"></div>
+      </div>
+      <div class="k">Error on the test data</div>
+      <div style="background:var(--line-soft); border-radius:3px; height:12px; margin:4px 0 0">
+        <div id="test-bar" style="width:0%; height:12px; background:#c05a2e; border-radius:3px"></div>
+      </div>
+    </div>
+  </div>
+
+  <p id="verdict" class="verdict" role="status" aria-live="polite">Move the sliders to see how model complexity and the amount of data interact.</p>
+
+  <section class="what-to-try">
+    <h2>Things worth trying</h2>
+    <ol>
+      <li>Start at degree 3 with 80 points. Both errors sit close to the noise floor, which is what a good fit looks like.</li>
+      <li>Push the degree up to 12, and then to 15. The curve starts to chase individual points, and the gap between the two errors widens. That gap is the signature of overfitting, which is to say of high variance.</li>
+      <li>Drop the degree to 1 or 2. Both errors rise sharply, because a straight line simply cannot bend into the shape of the data. That is underfitting, which is to say high bias.</li>
+      <li>Raise the number of points to 200 and repeat the second experiment. The same high degree now overfits far less. More data moves the best complexity upwards.</li>
+      <li>Reduce the number of points to 20. Even a degree of 10 now produces large errors on the test data. Notice the message that appears when the degree has to be reduced because there are too few points to fit the polynomial you asked for.</li>
+    </ol>
+  </section>
+</main>
+<script src="../assets/js/demos/common.js"></script>
+<script>
+'use strict';
+
+(function () {
+  var ML = window.ML;
+  var SEED = 20260207, POOL = 200, NOISE = 0.18;
+
+  // Fixed, seeded data: the same points on every load.
+  var rng = new ML.RNG(SEED);
+  var xs = new Array(POOL), ys = new Array(POOL);
+  for (var i = 0; i < POOL; i++) {
+    xs[i] = rng.next();                                   // x in [0, 1]
+    ys[i] = Math.sin(2 * Math.PI * xs[i]) + NOISE * rng.normal();
+  }
+
+  var degreeSlider = ML.el('degree'), nSlider = ML.el('ntrain');
+  var degVal = ML.el('degree-val'), nVal = ML.el('ntrain-val');
+  var trainMseEl = ML.el('train-mse'), testMseEl = ML.el('test-mse');
+  var nTrainEl = ML.el('n-train'), nTestEl = ML.el('n-test'), fitDegEl = ML.el('fit-deg');
+  var trainBar = ML.el('train-bar'), testBar = ML.el('test-bar');
+  var verdictEl = ML.el('verdict');
+  var canvas = ML.el('plot');
+
+  function currentFit() {
+    var n = +nSlider.value, deg = +degreeSlider.value;
+    var nTrain = Math.round(n * 0.7);
+    var effDeg = Math.min(deg, nTrain - 2);   // need at least 2 degrees of freedom
+    if (effDeg < 1) effDeg = 1;
+    var tx = xs.slice(0, nTrain), ty = ys.slice(0, nTrain);
+    var ex = xs.slice(nTrain, n), ey = ys.slice(nTrain, n);
+    var f = ML.polyfit(tx, ty, effDeg);
+    function mse(X, Y) {
+      var s = 0;
+      for (var i = 0; i < X.length; i++) { var d = f.eval(X[i]) - Y[i]; s += d * d; }
+      return s / X.length;
+    }
+    return { f: f, trainMse: mse(tx, ty), testMse: mse(ex, ey),
+             effDeg: effDeg, nTrain: nTrain, nTest: ex.length, requested: deg };
+  }
+
+  function draw() {
+    var w = canvas.clientWidth || 700, h = canvas.clientHeight || 430;
+    var ctx = ML.setupCanvas(canvas, w, h);
+    var pad = { l: 46, r: 16, t: 18, b: 34 };
+    var X0 = 0, X1 = 1, Y0 = -1.5, Y1 = 1.7;
+    var sx = ML.scaleLinear(X0, X1, pad.l, w - pad.r);
+    var sy = ML.scaleLinear(Y0, Y1, h - pad.b, pad.t);
+
+    var fit = currentFit();
+    var i;
+
+    // grid + axes
+    ctx.strokeStyle = '#e8e2d3'; ctx.lineWidth = 1;
+    for (i = 0; i <= 4; i++) {
+      var gx = X0 + (X1 - X0) * i / 4;
+      ctx.beginPath(); ctx.moveTo(sx(gx), pad.t); ctx.lineTo(sx(gx), h - pad.b); ctx.stroke();
+    }
+    for (i = 0; i <= 4; i++) {
+      var gy = Y0 + (Y1 - Y0) * i / 4;
+      ctx.beginPath(); ctx.moveTo(pad.l, sy(gy)); ctx.lineTo(w - pad.r, sy(gy)); ctx.stroke();
+    }
+    ctx.fillStyle = '#5f5c53'; ctx.font = '11px system-ui, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('x', w - pad.r - 12, h - 8);
+    ctx.textAlign = 'right';
+    ctx.fillText('y', 14, pad.t + 8);
+    ctx.textAlign = 'left';
+    for (i = 0; i <= 4; i++) {
+      ctx.fillText((X0 + (X1 - X0) * i / 4).toFixed(1), sx(X0 + (X1 - X0) * i / 4), h - 14);
+    }
+    ctx.textAlign = 'right';
+    for (i = 0; i <= 4; i++) {
+      var ly = Y0 + (Y1 - Y0) * i / 4;
+      ctx.fillText(ly.toFixed(1), pad.l - 6, sy(ly) + 4);
+    }
+
+    // noise floor line
+    ctx.strokeStyle = '#9a7b2d'; ctx.setLineDash([5, 4]);
+    ctx.beginPath(); ctx.moveTo(pad.l, sy(0.18)); ctx.lineTo(w - pad.r, sy(0.18)); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // fitted curve
+    ctx.strokeStyle = '#23211c'; ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    for (i = 0; i <= 240; i++) {
+      var px = sx(X0 + (X1 - X0) * i / 240);
+      var py = sy(fit.f.eval(X0 + (X1 - X0) * i / 240));
+      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    // points: train then test
+    function plotPoints(X, Y, color) {
+      ctx.fillStyle = color;
+      for (var j = 0; j < X.length; j++) {
+        ctx.beginPath();
+        ctx.arc(sx(X[j]), sy(Y[j]), 3.4, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+    }
+    plotPoints(xs.slice(0, fit.nTrain), ys.slice(0, fit.nTrain), '#1d4e79');
+    plotPoints(xs.slice(fit.nTrain, fit.nTrain + fit.nTest), ys.slice(fit.nTrain, fit.nTrain + fit.nTest), '#c05a2e');
+
+    // legend
+    ctx.font = '11px system-ui, sans-serif'; ctx.textAlign = 'left';
+    ctx.fillStyle = '#1d4e79'; ctx.fillRect(w - 150, pad.t + 4, 9, 9);
+    ctx.fillStyle = '#23211c'; ctx.fillText('train', w - 136, pad.t + 12);
+    ctx.fillStyle = '#c05a2e'; ctx.fillRect(w - 96, pad.t + 4, 9, 9);
+    ctx.fillStyle = '#23211c'; ctx.fillText('test', w - 82, pad.t + 12);
+  }
+
+  function update() {
+    var fit = currentFit();
+    trainMseEl.textContent = ML.fmt(fit.trainMse, 4);
+    testMseEl.textContent = ML.fmt(fit.testMse, 4);
+    nTrainEl.textContent = fit.nTrain;
+    nTestEl.textContent = fit.nTest;
+    fitDegEl.textContent = fit.effDeg;
+    degVal.textContent = fit.requested;
+    nVal.textContent = +nSlider.value;
+
+    var m = Math.max(fit.trainMse, fit.testMse, 0.35);
+    trainBar.style.width = Math.min(100, 100 * fit.trainMse / m) + '%';
+    testBar.style.width = Math.min(100, 100 * fit.testMse / m) + '%';
+
+    var t = fit.trainMse, e = fit.testMse, txt;
+    if (t > 0.10) {
+      txt = 'This is underfitting, or high bias. The model is too simple: the error on the training data ' +
+            'is already large, at ' + ML.fmt(t, 3) + ', because a polynomial of degree ' + fit.effDeg +
+            ' cannot bend into the shape of this data.';
+    } else if (e > 3 * t) {
+      txt = 'This is overfitting, or high variance. The curve is bending to reach individual points: the ' +
+            'error on the test data, ' + ML.fmt(e, 3) + ', is more than three times the error on the ' +
+            'training data, ' + ML.fmt(t, 3) + '.';
+    } else if (e > 1.55 * t) {
+      txt = 'This is mild overfitting. Both errors are low, but the error on the test data, ' + ML.fmt(e, 3) +
+            ', is clearly above the error on the training data, ' + ML.fmt(t, 3) + '.';
+    } else {
+      txt = 'The complexity is about right. The two errors, ' + ML.fmt(t, 3) + ' on the training data and ' +
+            ML.fmt(e, 3) + ' on the test data, are close to each other and close to the noise floor of ' +
+            'roughly 0.032, which is as low as any model could go.';
+    }
+    if (fit.requested > fit.nTrain - 2) {
+      txt += ' The degree actually fitted had to be reduced to ' + (fit.nTrain - 2) +
+             ', because there are too few training points to fit a polynomial of degree ' + fit.requested + '.';
+    }
+    verdictEl.innerHTML = txt;
+    draw();
+  }
+
+  ML.bindSlider('degree', update);
+  ML.bindSlider('ntrain', update);
+  window.addEventListener('resize', draw);
+  update();
+})();
+
+</script>
+</body>
+</html>

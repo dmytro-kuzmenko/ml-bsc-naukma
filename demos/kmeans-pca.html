@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>k-means clustering and principal component analysis — an interactive demonstration · Machine Learning (NaUKMA)</title>
+<meta name="description" content="An interactive demonstration: advance k-means one iteration at a time, and flatten a correlated cloud of points onto its first principal component.">
+<link rel="stylesheet" href="../assets/css/site.css">
+<style>
+  .demo-header {
+    background: var(--accent-strong);
+    padding: 1.1rem 0 1.2rem;
+    margin-bottom: 0.4rem;
+  }
+  .demo-header .back-link {
+    color: #d9e4f0;
+    text-decoration: none;
+    font-size: 0.92rem;
+  }
+  .demo-header .back-link:hover { color: #fff; text-decoration: underline; }
+  .demo-header h1 { color: #fff; margin: 0.4rem 0 0; font-size: 1.65rem; }
+  .demo-header .kicker { color: #f2d98c; margin-bottom: 0; }
+  .demo-intro { max-width: 46rem; }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem 1.8rem;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.9rem 1.1rem 1rem;
+    margin: 1.1rem 0 0.9rem;
+    align-items: flex-end;
+  }
+  .control { min-width: 190px; }
+  .control label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.88rem;
+    margin-bottom: 0.25rem;
+  }
+  .control .value {
+    font-weight: 700;
+    color: var(--accent-strong);
+    font-variant-numeric: tabular-nums;
+  }
+  input[type="range"] { width: 100%; max-width: 230px; display: block; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+  .figure { margin: 0.9rem 0 0.6rem; }
+  canvas.demo-canvas {
+    width: 100%;
+    height: 430px;
+    display: block;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .figure figcaption { font-size: 0.88rem; color: var(--muted); margin-top: 0.45rem; }
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+  .metric {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.45rem 0.55rem;
+    text-align: center;
+  }
+  .metric .k {
+    font-size: 0.74rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .metric .v {
+    font-size: 1.12rem;
+    font-weight: 700;
+    color: var(--accent-strong);
+    font-variant-numeric: tabular-nums;
+  }
+  .verdict {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 0.7rem 1rem;
+    margin: 1rem 0;
+  }
+  .what-to-try {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.9rem 1.2rem 1rem;
+    margin-top: 1.4rem;
+  }
+  .what-to-try h2 { margin-top: 0.2em; }
+  .what-to-try ol { margin: 0; padding-left: 1.25rem; }
+  .what-to-try li { margin-bottom: 0.45rem; }
+  @media (max-width: 560px) {
+    canvas.demo-canvas { height: 300px; }
+    .control { min-width: 100%; }
+    input[type="range"] { max-width: 100%; }
+  }
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="demo-header">
+  <div class="container">
+    <a class="back-link" href="../index.html">Return to the course home page</a>
+    <p class="kicker">Module 7 · Finding Structure Without Labels</p>
+    <h1>k-means clustering and principal component analysis</h1>
+  </div>
+</header>
+<main id="main" class="container site-main">
+
+  <p class="demo-intro lead">
+    Two ways of finding structure in data that carries no labels, both shown on fixed data generated from a fixed seed. In the first panel you advance the k-means algorithm one iteration at a time and watch its inertia fall. In the second you see the two principal directions of a correlated cloud of points, and you can flatten the cloud onto the first of them.
+  </p>
+
+  <div class="btn-row" role="tablist" aria-label="The two panels of this demonstration" style="margin:1rem 0 0.4rem">
+    <button type="button" class="btn" id="tab-kmeans" role="tab" aria-selected="true" aria-controls="panel-kmeans">k-means clustering</button>
+    <button type="button" class="btn btn-ghost" id="tab-pca" role="tab" aria-selected="false" aria-controls="panel-pca">Principal components</button>
+  </div>
+
+  <!-- ============ k-means panel ============ -->
+  <section id="panel-kmeans" role="tabpanel" aria-labelledby="tab-kmeans">
+    <p class="demo-intro">
+      Ninety points were drawn from three separate clusters, using a fixed seed. The slider sets the number of clusters the algorithm looks for, and changing it restarts the algorithm from the same deterministic starting centers. One step performs a single iteration: every point is assigned to its nearest center, and then every center moves to the mean of the points assigned to it. Running to the end repeats that until nothing changes.
+    </p>
+
+    <section class="controls" aria-label="Controls for the clustering panel">
+      <div class="control">
+        <label for="k">Number of clusters <span class="value" id="k-val">3</span></label>
+        <input type="range" id="k" min="1" max="6" step="1" value="3"
+               aria-label="Number of clusters" aria-describedby="k-hint">
+        <span id="k-hint" class="muted small">From 1 to 6; the default of 3 is the number of clusters actually present</span>
+      </div>
+      <div class="btn-row" style="min-width:210px">
+        <button type="button" class="btn btn-sm" id="btn-step">One step</button>
+        <button type="button" class="btn btn-sm" id="btn-auto">Run to the end</button>
+        <button type="button" class="btn btn-sm btn-ghost" id="btn-reset">Start again</button>
+      </div>
+    </section>
+
+    <figure class="figure">
+      <canvas id="plot-km" class="demo-canvas" width="700" height="430"
+        aria-label="The points, colored by the cluster they have been assigned to, together with the cluster centers">
+        An interactive drawing of k-means clustering, showing the cluster centers and the region belonging to each of them.
+        Your browser does not support the HTML5 canvas element.
+      </canvas>
+      <figcaption>
+        The tinted background shows which center is nearest at each position. The dots are the data points, colored by the cluster they currently belong to and grey before the first step. The squares are the cluster centers.
+      </figcaption>
+    </figure>
+
+    <section class="metrics" aria-label="Live values for the clustering" aria-live="polite">
+      <div class="metric"><div class="k">Inertia</div><div class="v" id="m-inertia">&ndash;</div></div>
+      <div class="metric"><div class="k">Iterations so far</div><div class="v" id="m-iter">0</div></div>
+      <div class="metric"><div class="k">What is happening</div><div class="v" id="m-status" style="font-size:0.85rem">not started yet</div></div>
+    </section>
+
+    <p id="verdict-km" class="verdict" role="status" aria-live="polite">
+      Take a few steps and watch the centers settle into the three groups. Inertia falls whenever another cluster is added, so it can never tell you on its own that a number is too large. What it can show is where the fall stops being dramatic, and here the largest relative drop is at three clusters. That bend is what people mean by the elbow.
+    </p>
+  </section>
+
+  <!-- ============ principal component panel ============ -->
+  <section id="panel-pca" role="tabpanel" aria-labelledby="tab-pca" hidden>
+    <p class="demo-intro">
+      A cloud of 120 points in two dimensions, generated from a fixed seed, is stretched along one direction. Principal component analysis finds the direction along which the data varies most, and the direction at right angles to it, which carries whatever variation is left. The slider moves every point gradually from where it actually lies to where it would land if it were flattened onto the first of those directions.
+    </p>
+
+    <section class="controls" aria-label="Controls for the principal component panel">
+      <div class="control">
+        <label for="squash">Flatten onto the first component <span class="value" id="squash-val">0.00</span></label>
+        <input type="range" id="squash" min="0" max="100" step="1" value="0"
+               aria-label="How far the points are flattened onto the first principal component" aria-describedby="squash-hint">
+        <span id="squash-hint" class="muted small">0 leaves the data untouched; 1 flattens it completely</span>
+      </div>
+      <div class="control">
+        <label for="pc2show"><input type="checkbox" id="pc2show" checked style="width:auto; display:inline; margin-right:0.35rem">Show the second component</label>
+      </div>
+    </section>
+
+    <figure class="figure">
+      <canvas id="plot-pca" class="demo-canvas" width="700" height="430"
+        aria-label="A correlated cloud of points, with the two principal directions drawn across it">
+        A drawing of a correlated cloud of points in two dimensions, with the principal directions marked and the flattening onto one of them shown.
+        Your browser does not support the HTML5 canvas element.
+      </canvas>
+      <figcaption>
+        The blue arrow is the first principal component and the shorter gold arrow is the second. Each
+        arrow is drawn in proportion to the standard deviation of the data along its direction, and the
+        label on the first reports the share of the total variance that it accounts for.
+      </figcaption>
+    </figure>
+
+    <section class="metrics" aria-label="Live values for the principal components" aria-live="polite">
+      <div class="metric"><div class="k">Variance along the first component</div><div class="v" id="m-pc1">&ndash;</div></div>
+      <div class="metric"><div class="k">Variance along the second component</div><div class="v" id="m-pc2">&ndash;</div></div>
+      <div class="metric"><div class="k">Share explained by the first</div><div class="v" id="m-exp1">&ndash;</div></div>
+      <div class="metric"><div class="k">Share explained by the second</div><div class="v" id="m-exp2">&ndash;</div></div>
+    </section>
+
+    <p id="verdict-pca" class="verdict" role="status" aria-live="polite">
+      Drag the slider all the way to 1. Every point collapses onto a single line, and a cloud that lived in two dimensions is now described by one number each, keeping the larger part of the variation.
+    </p>
+  </section>
+
+  <section class="what-to-try">
+    <h2>Things worth trying</h2>
+    <ol>
+      <li><strong>Clustering.</strong> With three clusters, take a few single steps. The centers move from their starting positions into the middle of the three groups, and the inertia falls quickly as they do.</li>
+      <li><strong>Clustering.</strong> Run to the end with two, three and four clusters, and note the final inertia in each case. The largest relative drop is at three, which is the reasoning behind choosing a number of clusters from the bend in the curve.</li>
+      <li><strong>Clustering.</strong> Try one cluster, which puts a single center at the mean of everything, and then six, which splits each real group in two. The inertia keeps falling, which is exactly why it can never tell you on its own that six is the better answer.</li>
+      <li><strong>Principal components.</strong> Flatten the data completely. The elongated structure survives, because the first component alone accounts for about 94 percent of the variance.</li>
+      <li><strong>Principal components.</strong> Hide the second component and consider what the flattening throws away: the small amount of scatter across the narrow direction, which is the remaining 6 percent or so of the variance.</li>
+    </ol>
+  </section>
+</main>
+<script src="../assets/js/demos/common.js"></script>
+<script>
+'use strict';
+
+(function () {
+  var ML = window.ML;
+
+  /* ================= k-means panel ================= */
+  var rngKm = new ML.RNG(20260707);
+  var blobs = [[0.30, 0.70], [0.70, 0.70], [0.50, 0.25]];
+  var kmPts = [];
+  for (var b = 0; b < blobs.length; b++) {
+    for (var j = 0; j < 30; j++) {
+      kmPts.push([blobs[b][0] + 0.12 * rngKm.normal(), blobs[b][1] + 0.12 * rngKm.normal()]);
+    }
+  }
+  var N_KM = kmPts.length;
+
+  var kSlider = ML.el('k'), assign = null, centroids = null, iter = 0, converged = false;
+  var kmCanvas = ML.el('plot-km');
+
+  function kmeansPlusPlus(seed) {
+    var rng = new ML.RNG(seed);
+    var k = +kSlider.value;
+    var idx = [rng.int(0, N_KM - 1)];
+    while (idx.length < k) {
+      var d2 = new Array(N_KM), total = 0;
+      for (var i = 0; i < N_KM; i++) {
+        var best = Infinity;
+        for (var j = 0; j < idx.length; j++) {
+          var dx = kmPts[i][0] - kmPts[idx[j]][0], dy = kmPts[i][1] - kmPts[idx[j]][1];
+          var dd = dx * dx + dy * dy;
+          if (dd < best) best = dd;
+        }
+        d2[i] = best; total += best;
+      }
+      if (total <= 0) break;
+      var r = rng.next() * total, acc = 0, pick = N_KM - 1;
+      for (var q = 0; q < N_KM; q++) { acc += d2[q]; if (acc >= r) { pick = q; break; } }
+      idx.push(pick);
+    }
+    return idx.map(function (i) { return [kmPts[i][0], kmPts[i][1]]; });
+  }
+
+  function initKmeans() {
+    centroids = kmeansPlusPlus(777);
+    assign = new Array(N_KM).fill(-1);
+    iter = 0; converged = false;
+    updateKm();
+  }
+
+  function stepOnce() {
+    if (converged) return;
+    var changed = ML.kmeansStep(kmPts, centroids, assign);
+    iter++;
+    if (!changed) converged = true;
+    updateKm();
+  }
+
+  var autoTimer = null;
+  function autoRun() {
+    if (autoTimer) return;
+    autoTimer = setInterval(function () {
+      if (converged) { clearInterval(autoTimer); autoTimer = null; return; }
+      stepOnce();
+    }, 260);
+  }
+
+  ML.bindSlider('k', function () {
+    initKmeans();
+  });
+  ML.el('btn-step').addEventListener('click', stepOnce);
+  ML.el('btn-auto').addEventListener('click', autoRun);
+  ML.el('btn-reset').addEventListener('click', initKmeans);
+
+  function drawKm() {
+    var w = kmCanvas.clientWidth || 700, h = kmCanvas.clientHeight || 430;
+    var ctx = ML.setupCanvas(kmCanvas, w, h);
+    var dx = 1.15, dy = 1.15;
+    var scale = Math.min((w - 60) / dx, (h - 60) / dy);
+    var px0 = (w - scale * dx) / 2, py0 = (h - scale * dy) / 2;
+    function X(x) { return px0 + (x + 0.08) * scale; }
+    function Y(y) { return py0 + (1.08 - y) * scale; }
+
+    // partition background: nearest centroid per coarse cell
+    if (assign && centroids) {
+      var G = 96, off = document.createElement('canvas');
+      off.width = G; off.height = G;
+      var octx = off.getContext('2d');
+      var img = octx.createImageData(G, G), dat = img.data;
+      var colors = [[29, 78, 121], [192, 90, 46], [42, 125, 70], [124, 81, 158], [168, 120, 45], [62, 142, 158]];
+      for (var gy = 0; gy < G; gy++) {
+        for (var gx = 0; gx < G; gx++) {
+          var xx = -0.08 + (gx + 0.5) / G * 1.15, yy = 1.08 - (gy + 0.5) / G * 1.15;
+          var best = 0, bd = Infinity;
+          for (var c = 0; c < centroids.length; c++) {
+            var ddx = xx - centroids[c][0], ddy = yy - centroids[c][1];
+            var dd2 = ddx * ddx + ddy * ddy;
+            if (dd2 < bd) { bd = dd2; best = c; }
+          }
+          var col = colors[best % colors.length];
+          var idx = (gy * G + gx) * 4;
+          dat[idx] = col[0]; dat[idx + 1] = col[1]; dat[idx + 2] = col[2]; dat[idx + 3] = 46;
+        }
+      }
+      octx.putImageData(img, 0, 0);
+      ctx.drawImage(off, px0, py0, scale * 1.15, scale * 1.15);
+    }
+
+    // points
+    for (var i = 0; i < N_KM; i++) {
+      ctx.beginPath();
+      ctx.arc(X(kmPts[i][0]), Y(kmPts[i][1]), 4.2, 0, 2 * Math.PI);
+      if (assign && assign[i] >= 0) {
+        var cc = [[29, 78, 121], [192, 90, 46], [42, 125, 70], [124, 81, 158], [168, 120, 45], [62, 142, 158]][assign[i] % 6];
+        ctx.fillStyle = 'rgb(' + cc[0] + ',' + cc[1] + ',' + cc[2] + ')';
+      } else {
+        ctx.fillStyle = '#9a958a';
+      }
+      ctx.fill();
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(255,255,255,0.85)';
+      ctx.stroke();
+    }
+    // centroids
+    if (centroids) {
+      for (var c2 = 0; c2 < centroids.length; c2++) {
+        var cx = X(centroids[c2][0]), cy = Y(centroids[c2][1]);
+        ctx.fillStyle = '#23211c';
+        ctx.fillRect(cx - 7, cy - 7, 14, 14);
+        ctx.strokeStyle = '#fff'; ctx.lineWidth = 2;
+        ctx.strokeRect(cx - 7, cy - 7, 14, 14);
+      }
+    }
+    ctx.fillStyle = '#5f5c53'; ctx.font = '11px system-ui, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('x', w - 8, h - 10);
+    ctx.fillText('y', 12, py0 + 12);
+  }
+
+  function updateKm() {
+    ML.el('k-val').textContent = +kSlider.value;
+    ML.el('m-iter').textContent = iter;
+    var status;
+    if (assign && assign[0] >= 0) {
+      var inert = ML.kmeansInertia(kmPts, centroids, assign);
+      ML.el('m-inertia').textContent = ML.fmt(inert, 2);
+      status = converged ? 'it has converged' : 'still moving';
+    } else {
+      ML.el('m-inertia').textContent = '–';
+      status = 'not started yet';
+    }
+    ML.el('m-status').textContent = status;
+    drawKm();
+  }
+
+  /* ================= principal component panel ================= */
+  var rngPca = new ML.RNG(20260909);
+  var pcaPts = [];
+  for (var i = 0; i < 120; i++) {
+    var z1 = rngPca.normal(), z2 = rngPca.normal();
+    var a = 0.30 * z1, b = 0.07 * z2, th = 0.55;
+    pcaPts.push([0.5 + a * Math.cos(th) - b * Math.sin(th),
+                 0.5 + a * Math.sin(th) + b * Math.cos(th)]);
+  }
+  var pca = ML.pca2(pcaPts);
+  var squashSlider = ML.el('squash'), pc2Check = ML.el('pc2show');
+  var pcaCanvas = ML.el('plot-pca');
+
+  function projectOn(p, center, v) {
+    var dot = (p[0] - center[0]) * v[0] + (p[1] - center[1]) * v[1];
+    return [center[0] + dot * v[0], center[1] + dot * v[1]];
+  }
+
+  function drawPca() {
+    var w = pcaCanvas.clientWidth || 700, h = pcaCanvas.clientHeight || 430;
+    var ctx = ML.setupCanvas(pcaCanvas, w, h);
+    var t = +squashSlider.value / 100;
+    var dx = 1.7, dy = 1.7;
+    var scale = Math.min((w - 60) / dx, (h - 60) / dy);
+    var px0 = (w - scale * dx) / 2, py0 = (h - scale * dy) / 2;
+    function X(x) { return px0 + (x + 0.35) * scale; }
+    function Y(y) { return py0 + (1.35 - y) * scale; }
+
+    // axes
+    ctx.strokeStyle = '#e8e2d3'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(px0, Y(0.5)); ctx.lineTo(px0 + scale * dx, Y(0.5)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(0.5), py0); ctx.lineTo(X(0.5), py0 + scale * dy); ctx.stroke();
+
+    // PC axes as arrows
+    function arrow(cx, cy, vx, vy, color, width) {
+      var tip = [cx + vx, cy + vy];
+      ctx.strokeStyle = color; ctx.lineWidth = width;
+      ctx.beginPath(); ctx.moveTo(X(cx), Y(cy)); ctx.lineTo(X(tip[0]), Y(tip[1])); ctx.stroke();
+      var ang = Math.atan2(Y(cy) - Y(tip[1]), X(tip[0]) - X(cx));
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(X(tip[0]), Y(tip[1]));
+      ctx.lineTo(X(tip[0]) - 9 * Math.cos(ang - 0.42), Y(tip[1]) + 9 * Math.sin(ang - 0.42));
+      ctx.lineTo(X(tip[0]) - 9 * Math.cos(ang + 0.42), Y(tip[1]) + 9 * Math.sin(ang + 0.42));
+      ctx.closePath(); ctx.fill();
+    }
+    var L1 = 2.2 * Math.sqrt(pca.ev1), L2 = 2.2 * Math.sqrt(pca.ev2);
+    arrow(pca.center[0], pca.center[1], L1 * pca.v1[0], L1 * pca.v1[1], '#1d4e79', 2.4);
+    if (pc2Check.checked) {
+      arrow(pca.center[0], pca.center[1], L2 * pca.v2[0], L2 * pca.v2[1], '#9a7b2d', 1.8);
+    }
+    // the dashed line along the first principal component
+    ctx.setLineDash([4, 4]); ctx.strokeStyle = '#1d4e79'; ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(X(pca.center[0] - 1.15 * pca.v1[0]), Y(pca.center[1] - 1.15 * pca.v1[1]));
+    ctx.lineTo(X(pca.center[0] + 1.15 * pca.v1[0]), Y(pca.center[1] + 1.15 * pca.v1[1]));
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // points: original -> projection interpolation
+    for (var i = 0; i < pcaPts.length; i++) {
+      var p = pcaPts[i], pr = projectOn(p, pca.center, pca.v1);
+      var qx = p[0] + (pr[0] - p[0]) * t, qy = p[1] + (pr[1] - p[1]) * t;
+      ctx.beginPath();
+      ctx.arc(X(qx), Y(qy), 3.6, 0, 2 * Math.PI);
+      ctx.fillStyle = t > 0.99 ? '#1d4e79' : 'rgba(29,78,121,0.75)';
+      ctx.fill();
+    }
+    // projection guides at intermediate squash
+    if (t > 0 && t < 1) {
+      ctx.strokeStyle = 'rgba(192,90,46,0.55)'; ctx.lineWidth = 1;
+      for (var g = 0; g < pcaPts.length; g += 3) {
+        var p2 = pcaPts[g], pr2 = projectOn(p2, pca.center, pca.v1);
+        ctx.beginPath();
+        ctx.moveTo(X(p2[0]), Y(p2[1]));
+        ctx.lineTo(X(p2[0] + (pr2[0] - p2[0]) * t), Y(p2[1] + (pr2[1] - p2[1]) * t));
+        ctx.stroke();
+      }
+    }
+
+    ctx.fillStyle = '#5f5c53'; ctx.font = '11px system-ui, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('x', w - 8, h - 10);
+    ctx.fillText('y', 12, py0 + 12);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#1d4e79';
+    ctx.fillText('first component (' + ML.fmtPct(pca.explained1, 1) + ' of the variance)', 12, 14);
+  }
+
+  function updatePca() {
+    ML.el('squash-val').textContent = (+squashSlider.value / 100).toFixed(2);
+    ML.el('m-pc1').textContent = ML.fmt(pca.ev1, 3);
+    ML.el('m-pc2').textContent = ML.fmt(pca.ev2, 3);
+    ML.el('m-exp1').textContent = ML.fmtPct(pca.explained1, 1);
+    ML.el('m-exp2').textContent = ML.fmtPct(pca.explained2, 1);
+    drawPca();
+  }
+
+  ML.bindSlider('squash', updatePca);
+  ML.el('pc2show').addEventListener('change', updatePca);
+
+  /* ================= tabs ================= */
+  function showTab(which) {
+    var km = which === 'kmeans';
+    ML.el('panel-kmeans').hidden = !km;
+    ML.el('panel-pca').hidden = km;
+    ML.el('tab-kmeans').setAttribute('aria-selected', km ? 'true' : 'false');
+    ML.el('tab-pca').setAttribute('aria-selected', km ? 'false' : 'true');
+    ML.el('tab-kmeans').className = 'btn' + (km ? '' : ' btn-ghost');
+    ML.el('tab-pca').className = 'btn' + (km ? ' btn-ghost' : '');
+    if (km) drawKm(); else drawPca();
+  }
+  ML.el('tab-kmeans').addEventListener('click', function () { showTab('kmeans'); });
+  ML.el('tab-pca').addEventListener('click', function () { showTab('pca'); });
+
+  window.addEventListener('resize', function () {
+    if (!ML.el('panel-kmeans').hidden) drawKm(); else drawPca();
+  });
+
+  initKmeans();
+  updatePca();
+})();
+
+</script>
+</body>
+</html>

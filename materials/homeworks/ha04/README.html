@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Homework 4 — instructions — Machine Learning · NaUKMA</title>
+<meta name="description" content="Instructions for homework assignment 4 of the Machine Learning course at NaUKMA.">
+<link rel="stylesheet" href="../../../assets/css/site.css">
+<script defer src="../../../assets/js/config.js"></script>
+<script defer src="../../../assets/js/main.js"></script>
+<style>
+  .doc-page { max-width: 54rem; }
+  .doc-crumb { margin: 0 0 1.1rem; font-size: 0.92rem; }
+  .doc-body h1 { font-size: 1.9rem; border-bottom: 1px solid var(--line); padding-bottom: 0.35rem; }
+  .doc-body h2 { font-size: 1.45rem; }
+  .doc-body h3 { font-size: 1.15rem; }
+  .doc-body .question-meta { margin: 1.3rem 0 0.4rem; }
+  .doc-body blockquote {
+    margin: 1rem 0; padding: 0.6rem 1rem;
+    background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--gold);
+    border-radius: var(--radius); color: var(--muted);
+  }
+  .doc-body blockquote p { margin: 0; }
+  .doc-body pre {
+    background: #f1ede2; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 0.8rem 1rem; overflow-x: auto; font-size: 0.86rem; line-height: 1.5;
+  }
+  .doc-body code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: #f1ede2; border-radius: 3px; padding: 0.08em 0.32em; font-size: 0.88em;
+  }
+  .doc-body pre code { background: none; padding: 0; font-size: 0.86rem; }
+  .doc-body details {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 0.55rem 0.9rem; margin: 0.8rem 0;
+  }
+  .doc-body summary { cursor: pointer; font-weight: 600; color: var(--accent-strong); }
+  .doc-body hr { border: none; border-top: 1px solid var(--line); margin: 1.6rem 0; }
+  .doc-body table { margin: 0.9rem 0; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../../index.html">
+      <span class="brand-name">Machine Learning</span>
+      <span class="brand-sub">Machine Learning · NaUKMA</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+      <span aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+      <ul>
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../syllabus.html">Syllabus</a></li>
+        <li><a href="../../../syllabus.html#modules">Modules</a></li>
+        <li><a href="../../../practices.html">Practical sessions</a></li>
+        <li><a href="../../../homeworks.html">Homework</a></li>
+        <li><a href="../../../project.html">Mini-project</a></li>
+        <li><a href="../../../assessments.html">Assessment</a></li>
+        <li><a href="../../../policies.html">Policies</a></li>
+        <li><a href="../../../resources.html">Resources</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main" class="container site-main doc-page">
+  <p class="doc-crumb"><a href="../../../homeworks.html">&larr; Homework</a></p>
+  <article class="doc-body">
+<h1>Homework 4 — Cross-validation, pipelines and leakage</h1>
+<p><strong>Course:</strong> Machine Learning, National University of Kyiv-Mohyla Academy.
+<strong>Instructor:</strong> Dmytro Kuzmenko (<a href="mailto:kuzmenko@ukma.edu.ua">kuzmenko@ukma.edu.ua</a>).
+<strong>Module:</strong> Week 6 — Evaluation Done Properly.
+<strong>Points:</strong> 5. The six homework assignments are worth five points each and together account for 30 percent of the final grade.</p>
+<h2>What this assignment is about</h2>
+<p>See why a single training and test split is a noisy estimate, how k-fold cross-validation steadies it, why stratified and grouped splits exist at all, and how to keep preprocessing and tuning inside a pipeline that cannot leak.</p>
+<h2>What the folder contains</h2>
+<ul>
+<li><code>ha04.ipynb</code> — the assignment notebook. Run it from the first cell to the last, write an answer in every cell marked <strong>Your answer</strong>, complete the disclosure of artificial-intelligence use at the top, and submit the notebook with its output preserved.</li>
+<li><code>rubric.md</code> — the grading criteria, 1.25 points for each of the four tasks.</li>
+</ul>
+<h2>The four tasks</h2>
+<ul>
+<li><strong>Task 1 — How much a single split varies.</strong> Compute two estimates for the same model with the same seed: one eighty-twenty split, and five-fold cross-validation. Present the per-fold table, decide honestly which estimate you would report, and interpret the spread across the folds. Then repeat the single split many times and explain what the repetition shows.</li>
+<li><strong>Task 2 — Stratification.</strong> Compare the positive rate in each fold under ordinary and under stratified k-fold splitting. Explain why a fold that contains no positive examples destroys the estimate, support the explanation with a simulation or an explicit argument, and state a recommendation.</li>
+<li><strong>Task 3 — Group leakage.</strong> Generate data in which each patient contributes several measurements, and compare ordinary k-fold with grouped k-fold. Identify the mechanism by which the model comes to recognize the patient instead of the disease. Repeat with fifty measurements per patient and interpret the result, then discuss what changes when the patient identifier is removed from the features.</li>
+<li><strong>Task 4 — Leakage inside a pipeline.</strong> Build the pipeline correctly, so that the scaler is fitted afresh inside every fold. Quantify the leak caused by scaling on the full dataset, and explain the outcome honestly even when the difference turns out to be close to zero. Demonstrate a copied target and mean-target encoding as two further leaks, then state the protocol you would trust and why.</li>
+</ul>
+<h2>What you need in order to run it</h2>
+<p>Python together with <code>numpy</code>, <code>pandas</code>, <code>matplotlib</code> and <code>scikit-learn</code>; the course environment already provides all of them. Every dataset is either generated inside the notebook or loaded from the datasets that ship with scikit-learn, so nothing has to be downloaded. Every random process is seeded, so your results should reproduce closely. The notebook takes about one minute on an ordinary laptop processor, and no graphics card is required.</p>
+<h2>How to open the notebook</h2>
+<ul>
+<li><strong>On your own machine:</strong> from the root of the repository run <code>jupyter notebook materials/homeworks/ha04/ha04.ipynb</code>, or open the same file in JupyterLab or Visual Studio Code.</li>
+<li><strong>In Google Colab:</strong> open <a href="https://colab.research.google.com/github/dmytro-kuzmenko/ml-bsc-naukma/blob/main/materials/homeworks/ha04/ha04.ipynb">https://colab.research.google.com/github/dmytro-kuzmenko/ml-bsc-naukma/blob/main/materials/homeworks/ha04/ha04.ipynb</a>.</li>
+</ul>
+<h2>How it is graded</h2>
+<p>Five points in total, 1.25 points for each of the four tasks. Every task is judged on the same five steps that structure every experiment in this course: the <strong>experiment</strong> you ran, the <strong>decision</strong> you made, the <strong>evidence</strong> you produced, the <strong>interpretation</strong> you drew from it, and the <strong>counterfactual</strong> you predicted. The full breakdown is in <a href="rubric.html">the rubric</a>.</p>
+<p>Each student has five late days for all homework assignments taken together, and one late day covers up to 24 hours. Once those days are used up, the maximum score falls by 25 percent for every further 24 hours.</p>
+<h2>A reminder about artificial-intelligence tools</h2>
+<p>Artificial-intelligence tools are permitted for this assignment. You must complete the disclosure block at the top of the notebook, describing which tools you used, what kind of help they gave you, a few representative prompts, and which parts of the work you verified or rewrote yourself. You remain responsible for every claim in the submission and must be able to explain any part of it in a short oral check. These tools, and any other outside help, are prohibited during the midterm and the final examination.</p>
+  </article>
+</main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-brand">Machine Learning · NaUKMA</p>
+    <p>Dmytro Kuzmenko, Assistant Professor, Department of Multimedia Systems · <a href="mailto:kuzmenko@ukma.edu.ua">kuzmenko@ukma.edu.ua</a></p>
+    <p>Course materials: <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma">github.com/dmytro-kuzmenko/ml-bsc-naukma</a></p>
+    <p>Course materials are licensed under <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma/blob/main/LICENSE">CC BY 4.0</a>.</p>
+    <p>© <span id="year">2026</span> Machine Learning · NaUKMA</p>
+  </div>
+</footer>
+</body>
+</html>

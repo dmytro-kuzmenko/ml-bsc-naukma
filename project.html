@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini-project — Machine Learning · NaUKMA</title>
+<meta name="description" content="The mini-project of the Machine Learning course at the National University of Kyiv-Mohyla Academy: what is expected, what you submit, and how it is graded.">
+<link rel="stylesheet" href="assets/css/site.css">
+<script defer src="assets/js/config.js"></script>
+<script defer src="assets/js/main.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-name">Machine Learning</span>
+      <span class="brand-sub">Machine Learning · NaUKMA</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+      <span aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="syllabus.html">Syllabus</a></li>
+        <li><a href="syllabus.html#modules">Modules</a></li>
+        <li><a href="practices.html">Practical sessions</a></li>
+        <li><a href="homeworks.html">Homework</a></li>
+        <li><a href="project.html">Mini-project</a></li>
+        <li><a href="assessments.html">Assessment</a></li>
+        <li><a href="policies.html">Policies</a></li>
+        <li><a href="resources.html">Resources</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main" class="site-main">
+<div class="container">
+  <section class="hero">
+    <h1>Mini-project</h1>
+    <p class="subtitle">One complete machine-learning investigation · 25 points · carried out alone or in a pair</p>
+  </section>
+
+  <section class="section">
+    <h2>What is expected</h2>
+    <p class="lead">The mini-project is a small empirical study that is nonetheless complete, running from the formulation of a question through to a reproducible report whose conclusions are properly justified. It is not a competition for the highest accuracy: the grade rewards the quality of the method rather than the size of the number reached.</p>
+    <p>The work follows eleven steps: state the question, inspect the data, build a baseline, choose preprocessing that cannot leak, choose one to three candidate models, choose a validation scheme that is valid for the data, choose metrics that suit the task, compare the experiments, analyze where the model fails, state the limitations alongside the conclusions, and make everything reproducible. The <a href="materials/project/specification.html">specification</a> describes each step in full.</p>
+  </section>
+
+  <section class="section">
+    <h2>What you submit</h2>
+    <ul>
+      <li>A notebook, or a small repository, that runs from beginning to end without intervention.</li>
+      <li>A short report, for example a README file, covering the goal, the data, the method, the results, the conclusions and the limitations.</li>
+      <li>The results and figures, either embedded in the notebook or kept in a folder of their own.</li>
+      <li>Instructions for reproducing the work: the environment, the dependencies and the commands to run.</li>
+      <li>A disclosure of artificial-intelligence use, in more detail than the homework assignments require.</li>
+      <li>A short presentation or demonstration at a practical session, where that is feasible.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>The defense</h2>
+    <div class="card">
+      <p>Every project may be briefly defended, in about five to seven minutes for a pair. At least one question is put to each student <strong>individually</strong>. The defense confirms that the work is yours and that you understand it; it is not scored separately. Defenses take place at the practical session in Week 10.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Artificial-intelligence tools and reproducibility</h2>
+    <p>These tools are permitted for the mini-project, but the submitted work remains your responsibility. You must understand the code, the methodological decisions, the analysis and the conclusions, and you must be able to explain them out loud. The disclosure describes which tools you used, what kind of help they gave you, a few representative prompts, and which parts of the work you verified or changed yourself. The <a href="policies.html">course policies</a> give the full rule.</p>
+    <p>Reproducibility means fixed random seeds, an unambiguous order of execution, and stated versions for the libraries you depend on. Every notebook in this course runs on an ordinary laptop processor.</p>
+  </section>
+
+  <section class="section">
+    <h2>Documents</h2>
+    <div class="card-grid">
+      <div class="card"><h3>Specification</h3><p>The full description of the process, the eleven steps, and how the work is graded.</p><a class="card-link" href="materials/project/specification.html">Read the specification</a></div>
+      <div class="card"><h3>Directions and data</h3><p>Ten suggested directions, with the datasets that suit them.</p><a class="card-link" href="materials/project/ideas.html">Read the suggestions</a></div>
+      <div class="card"><h3>Grading criteria</h3><p>The eight criteria and how they convert into the 25 points.</p><a class="card-link" href="materials/project/rubric.html">Read the criteria</a></div>
+    </div>
+  </section>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-brand">Machine Learning · NaUKMA</p>
+    <p>Dmytro Kuzmenko, Assistant Professor, Department of Multimedia Systems · <a href="mailto:kuzmenko@ukma.edu.ua">kuzmenko@ukma.edu.ua</a></p>
+    <p>Course materials: <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma">github.com/dmytro-kuzmenko/ml-bsc-naukma</a></p>
+    <p>Course materials are licensed under <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma/blob/main/LICENSE">CC BY 4.0</a>.</p>
+    <p>© <span id="year">2026</span> Machine Learning · NaUKMA</p>
+  </div>
+</footer>
+</body>
+</html>

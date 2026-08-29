@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Homework 3 — grading rubric — Machine Learning · NaUKMA</title>
+<meta name="description" content="Grading rubric for homework assignment 3 of the Machine Learning course at NaUKMA.">
+<link rel="stylesheet" href="../../../assets/css/site.css">
+<script defer src="../../../assets/js/config.js"></script>
+<script defer src="../../../assets/js/main.js"></script>
+<style>
+  .doc-page { max-width: 54rem; }
+  .doc-crumb { margin: 0 0 1.1rem; font-size: 0.92rem; }
+  .doc-body h1 { font-size: 1.9rem; border-bottom: 1px solid var(--line); padding-bottom: 0.35rem; }
+  .doc-body h2 { font-size: 1.45rem; }
+  .doc-body h3 { font-size: 1.15rem; }
+  .doc-body .question-meta { margin: 1.3rem 0 0.4rem; }
+  .doc-body blockquote {
+    margin: 1rem 0; padding: 0.6rem 1rem;
+    background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--gold);
+    border-radius: var(--radius); color: var(--muted);
+  }
+  .doc-body blockquote p { margin: 0; }
+  .doc-body pre {
+    background: #f1ede2; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 0.8rem 1rem; overflow-x: auto; font-size: 0.86rem; line-height: 1.5;
+  }
+  .doc-body code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: #f1ede2; border-radius: 3px; padding: 0.08em 0.32em; font-size: 0.88em;
+  }
+  .doc-body pre code { background: none; padding: 0; font-size: 0.86rem; }
+  .doc-body details {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 0.55rem 0.9rem; margin: 0.8rem 0;
+  }
+  .doc-body summary { cursor: pointer; font-weight: 600; color: var(--accent-strong); }
+  .doc-body hr { border: none; border-top: 1px solid var(--line); margin: 1.6rem 0; }
+  .doc-body table { margin: 0.9rem 0; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../../index.html">
+      <span class="brand-name">Machine Learning</span>
+      <span class="brand-sub">Machine Learning · NaUKMA</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+      <span aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+      <ul>
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../syllabus.html">Syllabus</a></li>
+        <li><a href="../../../syllabus.html#modules">Modules</a></li>
+        <li><a href="../../../practices.html">Practical sessions</a></li>
+        <li><a href="../../../homeworks.html">Homework</a></li>
+        <li><a href="../../../project.html">Mini-project</a></li>
+        <li><a href="../../../assessments.html">Assessment</a></li>
+        <li><a href="../../../policies.html">Policies</a></li>
+        <li><a href="../../../resources.html">Resources</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main" class="container site-main doc-page">
+  <p class="doc-crumb"><a href="../../../homeworks.html">&larr; Homework</a></p>
+  <article class="doc-body">
+<h1>Grading rubric — Homework 3: Trees, ensembles and support vector machines (5 points)</h1>
+<p><strong>Course:</strong> Machine Learning, National University of Kyiv-Mohyla Academy. <strong>Module:</strong> Weeks 4 and 5 — Trees and Ensembles; Margins, Similarity and Kernels.</p>
+<p>The assignment has four tasks and each one is worth 1.25 points. Every task is judged on the same five components, which are the five steps of the reasoning loop used throughout the course.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Component</th>
+<th>What is expected</th>
+<th>Points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Experiment</td>
+<td>The setup is correct: the right data, the right model, the right validation scheme, fixed random seeds, and no cell that fails without saying so</td>
+<td>0.35</td>
+</tr>
+<tr>
+<td>Decision</td>
+<td>One meaningful methodological choice, stated explicitly and justified, rather than simply announced</td>
+<td>0.25</td>
+</tr>
+<tr>
+<td>Evidence</td>
+<td>A plot, table, metric or comparison that supports the claim directly, with readable labels and captions</td>
+<td>0.25</td>
+</tr>
+<tr>
+<td>Interpretation</td>
+<td>What the evidence means, connected back to the idea the task is about</td>
+<td>0.25</td>
+</tr>
+<tr>
+<td>Counterfactual</td>
+<td>A prediction of what would change if a parameter or an assumption changed, either verified experimentally or argued rigorously</td>
+<td>0.15</td>
+</tr>
+</tbody>
+</table></div>
+<h2>What each task must show</h2>
+<ul>
+<li><strong>Task 1, the complexity of a single tree.</strong> Fit trees of maximum depth one, two, four, eight and unlimited. Plot training accuracy against five-fold cross-validated accuracy, identify where overfitting begins, then draw the depth-two tree and state one of its decision rules in ordinary language.</li>
+<li><strong>Task 2, a forest against a single tree.</strong> Compare random forests of ten, fifty and two hundred trees against the best single tree. Explain why averaging many trees reduces variance, and reason through what would happen if the individual trees were made even more random than they already are.</li>
+<li><strong>Task 3, boosting, forests and a single tree.</strong> Build one comparison table across the training, validation and test splits. State which model you would prefer and why, and say explicitly what further evidence would be needed to settle the question.</li>
+<li><strong>Task 4, support vector machines and feature scaling.</strong> Compare a linear kernel with a radial basis function kernel, on raw features and on standardized ones. Run a grid over C and gamma, quantify exactly what scaling changes, then choose a final pipeline and justify the choice.</li>
+</ul>
+<h2>General rules</h2>
+<ul>
+<li>The notebook is the submission. It must run from the first cell to the last without errors, and no answer cell may be left empty; a task whose cells do not run receives no points.</li>
+<li>A quarter of a point is deducted when an experiment cannot be reproduced, because seeds are missing, cells are broken, or a step was carried out by hand.</li>
+<li>A quarter of a point is deducted when a number is interpreted without supporting evidence: no table, no plot, no metric.</li>
+<li>An answer that only restates the output without reasoning about it receives at most half of the points available for the decision and the interpretation.</li>
+<li>The disclosure of artificial-intelligence use must be completed. Failing to disclose is treated as a matter of academic integrity, governed by the Regulations on Academic Integrity for Students of NaUKMA (Order No. 112 of 7 March 2018).</li>
+<li>Any submission may be selected for a short oral check lasting two to five minutes. Its outcome may adjust the grade: the work is confirmed, a small gap is noted, a substantial inability to explain the work is recorded, or the matter is referred to the academic-integrity procedure.</li>
+<li>Each student has five late days for all homework assignments taken together. Once they are used up, the maximum score falls by 25 percent for every further 24 hours.</li>
+</ul>
+<h2>How points convert to grades</h2>
+<p>The university scale of 100 points maps to the European Credit Transfer System as follows: 91 to 100 is A, 81 to 90 is B, 71 to 80 is C, 66 to 70 is D, 60 to 65 is E, 30 to 59 is FX, and 1 to 29 is F.</p>
+  </article>
+</main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-brand">Machine Learning · NaUKMA</p>
+    <p>Dmytro Kuzmenko, Assistant Professor, Department of Multimedia Systems · <a href="mailto:kuzmenko@ukma.edu.ua">kuzmenko@ukma.edu.ua</a></p>
+    <p>Course materials: <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma">github.com/dmytro-kuzmenko/ml-bsc-naukma</a></p>
+    <p>Course materials are licensed under <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma/blob/main/LICENSE">CC BY 4.0</a>.</p>
+    <p>© <span id="year">2026</span> Machine Learning · NaUKMA</p>
+  </div>
+</footer>
+</body>
+</html>

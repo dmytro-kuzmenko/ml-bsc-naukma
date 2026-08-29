@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Practice final examination — sample questions — Machine Learning · NaUKMA</title>
+<meta name="description" content="Sample final-examination questions for the Machine Learning course at NaUKMA.">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<script defer src="../../assets/js/config.js"></script>
+<script defer src="../../assets/js/main.js"></script>
+<style>
+  .doc-page { max-width: 54rem; }
+  .doc-crumb { margin: 0 0 1.1rem; font-size: 0.92rem; }
+  .doc-body h1 { font-size: 1.9rem; border-bottom: 1px solid var(--line); padding-bottom: 0.35rem; }
+  .doc-body h2 { font-size: 1.45rem; }
+  .doc-body h3 { font-size: 1.15rem; }
+  .doc-body .question-meta { margin: 1.3rem 0 0.4rem; }
+  .doc-body blockquote {
+    margin: 1rem 0; padding: 0.6rem 1rem;
+    background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--gold);
+    border-radius: var(--radius); color: var(--muted);
+  }
+  .doc-body blockquote p { margin: 0; }
+  .doc-body pre {
+    background: #f1ede2; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 0.8rem 1rem; overflow-x: auto; font-size: 0.86rem; line-height: 1.5;
+  }
+  .doc-body code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: #f1ede2; border-radius: 3px; padding: 0.08em 0.32em; font-size: 0.88em;
+  }
+  .doc-body pre code { background: none; padding: 0; font-size: 0.86rem; }
+  .doc-body details {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 0.55rem 0.9rem; margin: 0.8rem 0;
+  }
+  .doc-body summary { cursor: pointer; font-weight: 600; color: var(--accent-strong); }
+  .doc-body hr { border: none; border-top: 1px solid var(--line); margin: 1.6rem 0; }
+  .doc-body table { margin: 0.9rem 0; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-name">Machine Learning</span>
+      <span class="brand-sub">Machine Learning · NaUKMA</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+      <span aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+      <ul>
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../syllabus.html">Syllabus</a></li>
+        <li><a href="../../syllabus.html#modules">Modules</a></li>
+        <li><a href="../../practices.html">Practical sessions</a></li>
+        <li><a href="../../homeworks.html">Homework</a></li>
+        <li><a href="../../project.html">Mini-project</a></li>
+        <li><a href="../../assessments.html">Assessment</a></li>
+        <li><a href="../../policies.html">Policies</a></li>
+        <li><a href="../../resources.html">Resources</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main" class="container site-main doc-page">
+  <p class="doc-crumb"><a href="../../assessments.html">&larr; Assessment</a></p>
+  <article class="doc-body">
+<h1>Practice final examination — sample questions</h1>
+<blockquote>
+<p><strong>This is public practice material.</strong> The questions below are samples for self-study. The questions on the real examination are drawn from a private bank and are not published.</p>
+</blockquote>
+<h2>The format of the examination</h2>
+<ul>
+<li><strong>How long it lasts.</strong> Forty-five minutes, taken individually against a timer, covering all ten modules.</li>
+<li><strong>Where it happens.</strong> On DistEdu. Questions appear one to a screen, with the timer running.</li>
+<li><strong>The rules.</strong> Closed book. Artificial-intelligence tools and help from other people are <strong>prohibited</strong>, under the academic-integrity policy stated in the syllabus. An oral check afterwards is possible.</li>
+<li><strong>What it contains.</strong> Roughly 20 to 25 percent short conceptual reasoning, 50 to 60 percent interpretation and diagnosis, and 20 to 25 percent methodological decisions. There is very little arithmetic.</li>
+<li><strong>How the weight is distributed.</strong> Evaluation and diagnosis, the material of Modules 6 to 9, carry the largest share. The earlier modules appear in a cumulative form, folded into questions about later material.</li>
+<li><strong>What is never asked.</strong> Reciting a definition, working through a long derivation, writing substantial code, or remembering the exact arguments of a library function.</li>
+</ul>
+<h2>Sample questions</h2>
+<p>Every sample below is labeled with the same information as a real examination item: the module it comes from, the kind of reasoning it asks for, its difficulty, and how long you should expect to spend on it. Each answer is hidden until you open it. Attempt the question before you look.</p>
+<p class="small muted question-meta">Module 6 · Question type: identifying data leakage · Difficulty 2 of 3 · Time to allow: about 2 to 3 minutes</p>
+
+<p>A team fills in the missing values of each column with the mean of that column, computed over all of the data, training and test together. Only afterwards do they split the data and train the model. (a) What is wrong with this procedure? (b) How should the missing values be filled in instead?</p>
+<details>
+<summary><strong>Answer</strong></summary>
+
+**(a)** Each column mean was computed with the test rows included, so every imputed training value carries a trace of the test set. Information has flowed backwards from the data that is supposed to be untouched, and the resulting estimate of performance is optimistically biased. The bias is usually small, but it is real and it is entirely avoidable.
+
+**(b)** Fit the imputer on the training split alone, then use that fitted imputer to transform both splits. Inside cross-validation, fit it afresh on the training part of every fold, which is what a scikit-learn pipeline does automatically when it is passed to the cross-validation routine.
+
+</details>
+
+<p class="small muted question-meta">Module 3 · Question type: reasoning about the decision threshold · Difficulty 2 of 3 · Time to allow: about 2 to 3 minutes</p>
+
+<p>A medical triage system has to reach a recall of at least 0.95, so that nearly every urgent case is flagged. At a threshold of 0.5 the model achieves a recall of 0.80 and a precision of 0.30. (a) In which direction should the threshold move? (b) Predict what happens to precision and to the number of flagged patients. (c) Why is a low precision acceptable here?</p>
+<details>
+<summary><strong>Answer</strong></summary>
+
+**(a)** Downwards, so that more patients are flagged.
+
+**(b)** Precision falls further, and the number of flagged patients rises.
+
+**(c)** In triage the expensive error is missing an urgent case, because the consequence is a patient who goes untreated. A false alarm costs a review by a clinician, which is comparatively cheap and can be absorbed by a second, more specific stage further down the process. When the two kinds of error differ in cost by that much, buying recall with precision is the correct trade.
+
+</details>
+
+<p class="small muted question-meta">Module 6 · Question type: diagnosing a model · Difficulty 3 of 3 · Time to allow: about 3 to 4 minutes</p>
+
+<p>Five-fold cross-validation produces the scores 0.88, 0.63, 0.90, 0.87 and 0.60. (a) On a dataset with one rare class, what most likely explains the two poor folds? (b) Which evaluation strategy repairs it? (c) What should be reported alongside the mean score?</p>
+<details>
+<summary><strong>Answer</strong></summary>
+
+**(a)** The folds were not stratified. When one class is rare, a random partition can leave a fold with almost no positive examples, and a score computed on such a fold is close to meaningless, which is what the values 0.63 and 0.60 reflect. The model is probably fine; the estimate is not.
+
+**(b)** Stratified k-fold cross-validation, which preserves the ratio between the classes inside every fold.
+
+**(c)** Report the standard deviation across the folds alongside the mean, and report how many positive examples each fold contained. Without the second number the spread cannot be interpreted.
+
+</details>
+
+<p class="small muted question-meta">Module 6 · Question type: predicting the effect of a change · Difficulty 2 of 3 · Time to allow: about 2 to 3 minutes</p>
+
+<p>You move from three-fold to six-fold cross-validation on a dataset of 600 samples. Predict the effect on (a) the bias of the estimate of error, (b) the variance of that estimate, (c) the computational cost, and (d) the size of each held-out fold.</p>
+<details>
+<summary><strong>Answer</strong></summary>
+
+**(a)** The bias falls slightly. Each model is now trained on 500 samples instead of 400, so each one is a little closer to the model that would be trained on the whole dataset, which is the quantity the estimate is trying to describe.
+
+**(b)** The variance rises. The six training sets overlap far more than the three did, so the fold scores are more strongly correlated with one another and averaging them removes less noise than the larger number of folds might suggest.
+
+**(c)** The cost roughly doubles: six models are fitted instead of three.
+
+**(d)** Each held-out fold shrinks from 200 samples to 100, which is why each individual fold score is noisier.
+
+</details>
+
+<p class="small muted question-meta">Module 7 · Question type: interpreting a plot or a table · Difficulty 2 of 3 · Time to allow: about 2 to 3 minutes</p>
+
+<p>Principal component analysis on eight features gives the following proportions of explained variance: 0.38, 0.25, 0.15, 0.08, 0.06, 0.04, 0.02, 0.02. (a) How many components would you keep, and why? (b) What proportion of the variance does your choice retain?</p>
+<details>
+<summary><strong>Answer</strong></summary>
+
+**(a)** Three. The curve bends sharply after the third component: the first three contribute 0.38, 0.25 and 0.15, and the fourth adds only 0.08, with every later one contributing less still. Everything after the bend looks like the flat tail that carries mostly noise.
+
+**(b)** The three components retain 0.38 plus 0.25 plus 0.15, that is 0.78, or 78 percent of the variance.
+
+One caution: explained variance is a property of the features alone and knows nothing about the target. If the discarded directions happen to be the ones that separate the classes, this choice will hurt. When the components feed a supervised model, confirm the number by cross-validation rather than by reading the curve.
+
+</details>
+
+<p class="small muted question-meta">Module 8 · Question type: diagnosing a model · Difficulty 3 of 3 · Time to allow: about 3 to 4 minutes</p>
+
+<p>A neural network trains normally for forty epochs, and then the loss suddenly jumps to a very large value and stays there. (a) Name the most likely cause. (b) What two changes would you try first? (c) What would you inspect in the gradient statistics?</p>
+<details>
+<summary><strong>Answer</strong></summary>
+
+**(a)** The learning rate is too high for the region of the loss surface the optimizer has reached. One step landed far outside the basin it was descending, and the parameters never returned. Exploding gradients are the same failure seen from the other side.
+
+**(b)** Lower the learning rate, and clip the gradient norm. Switching to an adaptive optimizer with a smaller base rate achieves much the same thing.
+
+**(c)** Look at the norm of the gradient over the epochs immediately before the jump. A norm that grows over several steps, or that becomes infinite or undefined, confirms the diagnosis and distinguishes it from a corrupted batch of data.
+
+</details>
+
+<p class="small muted question-meta">Module 8 · Question type: predicting the effect of a change · Difficulty 1 of 3 · Time to allow: about 2 minutes</p>
+
+<p>You train a network with a learning rate of 0.01 for 100 epochs and reach a loss of 0.4. You then retrain it with a learning rate of 0.001 for the same 100 epochs. (a) How will the final loss compare, and why? (b) What risk does the smaller rate remove?</p>
+<details>
+<summary><strong>Answer</strong></summary>
+
+**(a)** The final loss will be higher than 0.4. Every step is ten times smaller, so after the same number of epochs the optimizer has traveled a shorter distance. A smaller learning rate makes convergence slower; it does not make the result better.
+
+**(b)** It removes the risk of a step so large that the loss oscillates or diverges instead of descending. That is the trade being made: stability against speed.
+
+</details>
+
+<p class="small muted question-meta">Module 3 · Question type: choosing a metric · Difficulty 2 of 3 · Time to allow: about 2 to 3 minutes</p>
+
+<p>A classifier for three classes, where A and B are frequent and C is rare, reports an accuracy of 0.95, a macro-averaged F1 score of 0.68 and a micro-averaged F1 score of 0.94. (a) Which number tells you the most about the rare class, and why? (b) If every class had to contribute equally to the reported score, which form of averaging would you use?</p>
+<details>
+<summary><strong>Answer</strong></summary>
+
+**(a)** The macro-averaged F1 score of 0.68. Macro averaging computes the F1 score separately for each class and then takes an unweighted mean, so the rare class C counts exactly as much as A and B. Accuracy and the micro-averaged score are both dominated by the frequent classes, which is why they sit up at 0.94 and 0.95 while the model may be performing badly on C.
+
+**(b)** Macro averaging, for the reason just given. Report the per-class scores alongside it, so a reader can see which class is dragging the mean down.
+
+</details>
+
+<p class="small muted question-meta">Module 9 · Question type: diagnosing a model · Difficulty 3 of 3 · Time to allow: about 3 to 4 minutes</p>
+
+<p>Of 500 misclassified images, 300 are blurred, 120 have strong shadows, and 80 fall into no clear category. (a) Which group should the team address first, and why? (b) Name one check you would run before investing effort in that group.</p>
+<details>
+<summary><strong>Answer</strong></summary>
+
+**(a)** The blurred images. They account for 300 of 500 errors, which is 60 percent of everything the model gets wrong, and they form a single coherent group with a plausible common cause. That combination gives the largest expected improvement for the effort spent.
+
+**(b)** Find out what share of the whole dataset that group represents, not just what share of the errors. If blurred images are 55 percent of all the data and 60 percent of the errors, the model is barely worse on them than it is everywhere else, and the group is not a distinct problem at all. It is also worth checking whether the errors concentrate on one class, and whether the group can be fixed at all before engineering time is committed to it.
+
+</details>
+
+<p class="small muted question-meta">Module 10 · Question type: choosing a metric · Difficulty 2 of 3 · Time to allow: about 2 to 3 minutes</p>
+
+<p>A loan-approval model is evaluated offline from a confusion matrix. Approving a loan that turns out to be bad costs 5 units; refusing a loan that would have been repaid costs 1 unit. (a) Why is accuracy a poor summary here? (b) What single number, computed from the confusion matrix and the costs, would you use to compare two models?</p>
+<details>
+<summary><strong>Answer</strong></summary>
+
+**(a)** Accuracy counts both kinds of mistake as one mistake, but here one of them is five times as expensive as the other. A model that makes fewer errors in total can easily be the more expensive model to run.
+
+**(b)** Expected cost. Take the positive class to be "this loan will default". Approving a bad loan is then a false negative, and refusing a good loan is a false positive, so the expected cost is five times the number of false negatives plus one times the number of false positives. Normalize it per thousand decisions so the figure is comparable across test sets, and prefer the model with the lower expected cost.
+
+</details>
+
+<h2>How to approach these questions</h2>
+<ul>
+<li>Learn the correct order of a pipeline until you no longer have to think about it: split first, then, separately within each training fold, fill in missing values, scale, select features, and train; evaluate at the end. The test set is touched exactly once.</li>
+<li>On questions about cross-validation, reason about the bias and the variance of the estimate separately. More folds means less bias, more variance and more computation.</li>
+<li>Diagnose from the pair of numbers, training error and validation error. Both high means bias; a low training error beside a high validation error means variance. Choose the remedy that matches the diagnosis.</li>
+<li>On imbalanced data, prefer precision, recall, the F1 score or the area under the precision-recall curve over accuracy, and use macro averaging when a rare class must count as much as the others.</li>
+<li>Leakage is the most common failure in real work. For every feature ask when its value actually becomes known, and for every transformation ask whether it was fitted on the training data alone.</li>
+<li>On questions about neural networks, connect the symptom to its cause: oscillation means the learning rate is too high; a loss that stays flat and high means too little capacity or uninformative features; a wide gap between training and validation loss means variance.</li>
+</ul>
+  </article>
+</main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-brand">Machine Learning · NaUKMA</p>
+    <p>Dmytro Kuzmenko, Assistant Professor, Department of Multimedia Systems · <a href="mailto:kuzmenko@ukma.edu.ua">kuzmenko@ukma.edu.ua</a></p>
+    <p>Course materials: <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma">github.com/dmytro-kuzmenko/ml-bsc-naukma</a></p>
+    <p>Course materials are licensed under <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma/blob/main/LICENSE">CC BY 4.0</a>.</p>
+    <p>© <span id="year">2026</span> Machine Learning · NaUKMA</p>
+  </div>
+</footer>
+</body>
+</html>

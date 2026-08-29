@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 3, Learning a Boundary (Classification) — Machine Learning · NaUKMA</title>
+<meta name="description" content="Module 3 of the Machine Learning course at the National University of Kyiv-Mohyla Academy, Learning a Boundary (Classification): what it covers, what you will be able to do afterwards, and its materials.">
+<link rel="stylesheet" href="../assets/css/site.css">
+<script defer src="../assets/js/config.js"></script>
+<script defer src="../assets/js/main.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../index.html">
+      <span class="brand-name">Machine Learning</span>
+      <span class="brand-sub">Machine Learning · NaUKMA</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+      <span aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../syllabus.html">Syllabus</a></li>
+        <li><a href="../syllabus.html#modules">Modules</a></li>
+        <li><a href="../practices.html">Practical sessions</a></li>
+        <li><a href="../homeworks.html">Homework</a></li>
+        <li><a href="../project.html">Mini-project</a></li>
+        <li><a href="../assessments.html">Assessment</a></li>
+        <li><a href="../policies.html">Policies</a></li>
+        <li><a href="../resources.html">Resources</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main" class="site-main">
+<div class="container">
+  <nav class="small" aria-label="Breadcrumbs">
+    <p class="small"><a href="../index.html">Home</a> · <a href="../syllabus.html#modules">Syllabus</a></p>
+  </nav>
+  <section class="hero">
+    <p class="kicker">Week 3 of 10</p>
+    <h1>Learning a Boundary (Classification)</h1>
+    <p class="subtitle">Learning a boundary between classes: logistic regression, nearest neighbors, confusion matrices, metrics, and thresholds.</p>
+    <p class="mod-meta">
+      <span>Practical session 3</span>
+      <span>Homework 2</span>
+      <span><a href="../assessments.html">Midterm examination, after Module 5</a></span>
+    </p>
+  </section>
+
+  <section class="section">
+    <h2>What this module covers</h2>
+    <ul class="topic-list">
+      <li>Classification understood as learning a boundary between the classes</li>
+      <li>Logistic regression and nearest neighbors, two quite different ways of drawing that boundary</li>
+      <li>The confusion matrix, and the four counts it contains: true positives, false positives, false negatives and true negatives</li>
+      <li>Accuracy, precision, recall, specificity and the F1 score, and what each of them measures</li>
+      <li>The decision threshold, and choosing the point at which the model will operate</li>
+      <li>Imbalance between the classes, and the two curves that describe it: the receiver operating characteristic and the precision-recall curve</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>What you will be able to do afterwards</h2>
+    <p>By the end of this module you should be able to:</p>
+    <ul class="obj-list">
+      <li>compute a confusion matrix and interpret every metric derived from it</li>
+      <li>explain why accuracy misleads when one class is rare</li>
+      <li>choose a decision threshold for a stated structure of costs</li>
+      <li>compare the two kinds of curve, and say what changes when the positive class becomes rarer</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>Materials</h2>
+    <dl>
+      <div class="material-row">
+        <dt>Practical session</dt>
+        <dd><div class="nb-link" data-nb="materials/practices/p03/p03.ipynb"><a href="../materials/practices/p03/p03.ipynb">Practical 3</a> — Classification metrics, thresholds and imbalance</div></dd>
+      </div>
+      <div class="material-row">
+        <dt>Homework</dt>
+        <dd><div class="nb-link" data-nb="materials/homeworks/ha02/ha02.ipynb"><a href="../materials/homeworks/ha02/ha02.ipynb">Homework 2</a> — Classification and evaluation metrics</div></dd>
+      </div>
+      <div class="material-row">
+        <dt>Demonstration</dt>
+        <dd><a href="../demos/threshold-precision-recall.html">The threshold, precision and recall</a></dd>
+      </div>
+      <div class="material-row">
+        <dt>Demonstration</dt>
+        <dd><a href="../demos/knn-boundary.html">The nearest-neighbor boundary</a></dd>
+      </div>
+      <div class="material-row">
+        <dt>Lecture</dt>
+        <dd><span class="muted small">The slides for this lecture will be published during the semester</span></dd>
+      </div>
+    </dl>
+  </section>
+
+  <nav class="module-nav" aria-label="Module navigation">
+    <span><a href="week-02.html">Week 2, the previous module</a></span>
+    <span class="next"><a href="week-04.html">Week 4, the next module</a></span>
+  </nav>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-brand">Machine Learning · NaUKMA</p>
+    <p>Dmytro Kuzmenko, Assistant Professor, Department of Multimedia Systems · <a href="mailto:kuzmenko@ukma.edu.ua">kuzmenko@ukma.edu.ua</a></p>
+    <p>Course materials: <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma">github.com/dmytro-kuzmenko/ml-bsc-naukma</a></p>
+    <p>Course materials are licensed under <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma/blob/main/LICENSE">CC BY 4.0</a>.</p>
+    <p>© <span id="year">2026</span> Machine Learning · NaUKMA</p>
+  </div>
+</footer>
+</body>
+</html>

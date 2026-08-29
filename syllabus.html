@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Syllabus — Machine Learning · NaUKMA</title>
+<meta name="description" content="The syllabus of the Machine Learning course at the National University of Kyiv-Mohyla Academy: the workload, how the grade is calculated, and what happens in each of the ten weeks.">
+<link rel="stylesheet" href="assets/css/site.css">
+<script defer src="assets/js/config.js"></script>
+<script defer src="assets/js/main.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-name">Machine Learning</span>
+      <span class="brand-sub">Machine Learning · NaUKMA</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+      <span aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="syllabus.html">Syllabus</a></li>
+        <li><a href="syllabus.html#modules">Modules</a></li>
+        <li><a href="practices.html">Practical sessions</a></li>
+        <li><a href="homeworks.html">Homework</a></li>
+        <li><a href="project.html">Mini-project</a></li>
+        <li><a href="assessments.html">Assessment</a></li>
+        <li><a href="policies.html">Policies</a></li>
+        <li><a href="resources.html">Resources</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main" class="site-main">
+<div class="container">
+  <section class="hero">
+    <h1>Syllabus</h1>
+    <p class="subtitle">Machine Learning · spring semester · 4 credits in the European Credit Transfer System</p>
+    <p class="meta-line"><strong>Dmytro Kuzmenko</strong>, Assistant Professor, Department of Multimedia Systems · <a href="mailto:kuzmenko@ukma.edu.ua">kuzmenko@ukma.edu.ua</a></p>
+  </section>
+
+  <section class="section">
+    <h2>How much work the course involves</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Measure</th><th>Amount</th></tr></thead>
+        <tbody>
+          <tr><td>Total workload</td><td>120 hours, worth 4 credits in the European Credit Transfer System</td></tr>
+          <tr><td>Hours spent in class</td><td>40 hours: ten lectures and ten practical sessions, each of two academic hours</td></tr>
+          <tr><td>Hours of independent work</td><td>Approximately 80</td></tr>
+          <tr><td>Final form of assessment</td><td>A credit, awarded as a pass or a fail</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>How the grade is calculated</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Component</th><th>What it consists of</th><th>Points</th><th>Share of the grade</th></tr></thead>
+        <tbody>
+          <tr><td>Homework assignments</td><td>Six assignments, five points each</td><td>30</td><td>30%</td></tr>
+          <tr><td>Midterm examination</td><td>An individual test on DistEdu, about 30 minutes long</td><td>15</td><td>15%</td></tr>
+          <tr><td>Mini-project</td><td>One complete investigation, alone or in a pair</td><td>25</td><td>25%</td></tr>
+          <tr><td>Final examination</td><td>A cumulative test on DistEdu, about 45 minutes long</td><td>30</td><td>30%</td></tr>
+        </tbody>
+        <tfoot><tr><td colspan="2">Total</td><td>100</td><td>100%</td></tr></tfoot>
+      </table>
+    </div>
+    <p class="small muted">At least 30 points on the university scale are required before you may sit the final assessment. The <a href="assessments.html">assessment page</a> explains each component in detail, and the <a href="policies.html">course policies</a> set out the rules that govern them.</p>
+  </section>
+
+  <section class="section" id="modules">
+    <h2>The ten weeks</h2>
+    <p class="small muted">Every notebook link is followed by two buttons that open the same file in Google Colab or on GitHub. Lecture materials are published as the semester proceeds.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Week</th><th>Module</th><th>What it covers</th><th>Practical session</th><th>Homework</th><th>Lecture</th></tr></thead>
+        <tbody>
+      <tr>
+        <td>1</td>
+        <td><strong>What Does It Mean to Learn?</strong></td>
+        <td>Learning from examples; splitting the data into a training and a test part; baselines; the first ideas of generalization and of data leakage</td>
+        <td><div class="nb-link" data-nb="materials/practices/p01/p01.ipynb"><a href="materials/practices/p01/p01.ipynb">Practical 1</a></div></td>
+        <td><span class="muted">none this week</span></td>
+        <td><a href="materials/lectures/week-01/lecture_1.pdf">Slides</a></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td><strong>Learning a Function (Regression)</strong></td>
+        <td>Polynomial regression; the complexity curve; underfitting and overfitting; ridge regularization; residuals</td>
+        <td><div class="nb-link" data-nb="materials/practices/p02/p02.ipynb"><a href="materials/practices/p02/p02.ipynb">Practical 2</a></div></td>
+        <td><div class="nb-link" data-nb="materials/homeworks/ha01/ha01.ipynb"><a href="materials/homeworks/ha01/ha01.ipynb">Homework 1</a></div></td>
+        <td class="muted small">to be published</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td><strong>Learning a Boundary (Classification)</strong></td>
+        <td>Logistic regression and nearest neighbors; the confusion matrix; precision, recall and the F1 score; the decision threshold; imbalance between the classes</td>
+        <td><div class="nb-link" data-nb="materials/practices/p03/p03.ipynb"><a href="materials/practices/p03/p03.ipynb">Practical 3</a></div></td>
+        <td><div class="nb-link" data-nb="materials/homeworks/ha02/ha02.ipynb"><a href="materials/homeworks/ha02/ha02.ipynb">Homework 2</a></div></td>
+        <td class="muted small">to be published</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td><strong>Trees and Ensembles</strong></td>
+        <td>Decision trees; depth and overfitting; random forests; gradient boosting; the importance of a feature</td>
+        <td><div class="nb-link" data-nb="materials/practices/p04/p04.ipynb"><a href="materials/practices/p04/p04.ipynb">Practical 4</a></div></td>
+        <td><div class="nb-link" data-nb="materials/homeworks/ha03/ha03.ipynb"><a href="materials/homeworks/ha03/ha03.ipynb">Homework 3</a></div></td>
+        <td class="muted small">to be published</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td><strong>Margins, Similarity and Kernels</strong></td>
+        <td>Margins; support vector machines; feature scaling; the radial basis function kernel; the hyperparameters C and gamma</td>
+        <td><div class="nb-link" data-nb="materials/practices/p05/p05.ipynb"><a href="materials/practices/p05/p05.ipynb">Practical 5</a></div></td>
+        <td><span class="muted">none this week</span></td>
+        <td class="muted small">to be published</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td><strong>Evaluation Done Properly</strong></td>
+        <td>Cross-validation; stratification; leakage between groups; pipelines; leakage through preprocessing and through the target</td>
+        <td><div class="nb-link" data-nb="materials/practices/p06/p06.ipynb"><a href="materials/practices/p06/p06.ipynb">Practical 6</a></div></td>
+        <td><div class="nb-link" data-nb="materials/homeworks/ha04/ha04.ipynb"><a href="materials/homeworks/ha04/ha04.ipynb">Homework 4</a></div></td>
+        <td class="muted small">to be published</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td><strong>Finding Structure Without Labels</strong></td>
+        <td>k-means; choosing the number of clusters; feature scaling; principal component analysis; reducing dimensions; the limits of clustering</td>
+        <td><div class="nb-link" data-nb="materials/practices/p07/p07.ipynb"><a href="materials/practices/p07/p07.ipynb">Practical 7</a></div></td>
+        <td><div class="nb-link" data-nb="materials/homeworks/ha05/ha05.ipynb"><a href="materials/homeworks/ha05/ha05.ipynb">Homework 5</a></div></td>
+        <td class="muted small">to be published</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td><strong>Optimization and Neural Networks</strong></td>
+        <td>Gradient descent; the learning rate; minibatches; the multilayer perceptron; overfitting in a neural network</td>
+        <td><div class="nb-link" data-nb="materials/practices/p08/p08.ipynb"><a href="materials/practices/p08/p08.ipynb">Practical 8</a></div></td>
+        <td><div class="nb-link" data-nb="materials/homeworks/ha06/ha06.ipynb"><a href="materials/homeworks/ha06/ha06.ipynb">Homework 6</a></div></td>
+        <td class="muted small">to be published</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td><strong>Diagnosing Machine-Learning Systems</strong></td>
+        <td>Learning curves; the analysis of errors; permutation importance; shifts in the distribution of the data; diagnosing a model</td>
+        <td><div class="nb-link" data-nb="materials/practices/p09/p09.ipynb"><a href="materials/practices/p09/p09.ipynb">Practical 9</a></div></td>
+        <td><span class="muted">none this week</span></td>
+        <td class="muted small">to be published</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td><strong>Machine Learning in Practice</strong></td>
+        <td>The workflow from beginning to end; the checklist of method; reproducibility; the defense of the mini-project</td>
+        <td><div class="nb-link" data-nb="materials/practices/p10/p10.ipynb"><a href="materials/practices/p10/p10.ipynb">Practical 10</a></div></td>
+        <td><span class="muted">none this week</span></td>
+        <td class="muted small">to be published</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note info">
+      <p>The <strong>midterm examination</strong> takes place after Module 5, as an individual test on DistEdu lasting about 30 minutes. The <strong>mini-project defense</strong> takes place at the practical session in Week 10.</p>
+    </div>
+  </section>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-brand">Machine Learning · NaUKMA</p>
+    <p>Dmytro Kuzmenko, Assistant Professor, Department of Multimedia Systems · <a href="mailto:kuzmenko@ukma.edu.ua">kuzmenko@ukma.edu.ua</a></p>
+    <p>Course materials: <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma">github.com/dmytro-kuzmenko/ml-bsc-naukma</a></p>
+    <p>Course materials are licensed under <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma/blob/main/LICENSE">CC BY 4.0</a>.</p>
+    <p>© <span id="year">2026</span> Machine Learning · NaUKMA</p>
+  </div>
+</footer>
+</body>
+</html>

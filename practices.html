@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Practical sessions — Machine Learning · NaUKMA</title>
+<meta name="description" content="The ten practical sessions of the Machine Learning course at the National University of Kyiv-Mohyla Academy, with the notebook for each one.">
+<link rel="stylesheet" href="assets/css/site.css">
+<script defer src="assets/js/config.js"></script>
+<script defer src="assets/js/main.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-name">Machine Learning</span>
+      <span class="brand-sub">Machine Learning · NaUKMA</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+      <span aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="syllabus.html">Syllabus</a></li>
+        <li><a href="syllabus.html#modules">Modules</a></li>
+        <li><a href="practices.html">Practical sessions</a></li>
+        <li><a href="homeworks.html">Homework</a></li>
+        <li><a href="project.html">Mini-project</a></li>
+        <li><a href="assessments.html">Assessment</a></li>
+        <li><a href="policies.html">Policies</a></li>
+        <li><a href="resources.html">Resources</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main" class="site-main">
+<div class="container">
+  <section class="hero">
+    <h1>Practical sessions</h1>
+    <p class="subtitle">Ten sessions that build methodological judgment and prepare you for the examinations</p>
+  </section>
+
+  <section class="section">
+    <p class="lead">The practical sessions develop the way you think about method: reading a plot, diagnosing a model, choosing a metric and a validation strategy, and noticing data leakage. They are <strong>not graded</strong>. What they do is prepare you for the homework assignments, for the mini-project and for the examinations.</p>
+    <p>Some sessions are discussions rather than coding exercises. The notebooks are written for self-study: open them on your own machine, or in Google Colab using the buttons that appear beneath every link.</p>
+    <div class="note">
+      <p>The <a href="materials/practices/README.html">overview of the practical sessions</a> describes how each notebook is organized and how to open it.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>The ten notebooks</h2>
+    <div class="card-list">
+    <div class="card">
+      <p class="kicker">Practical 1 · Week 1</p>
+      <h3>Designing an experiment, and the simplest forms of leakage</h3>
+      <p>The discipline of separating training data from test data, what a baseline is for, and how to recognize data leakage in its most obvious forms.</p>
+      <div class="nb-link" data-nb="materials/practices/p01/p01.ipynb">
+        <a class="btn" href="materials/practices/p01/p01.ipynb">Open the notebook</a>
+      </div>
+    </div>
+    <div class="card">
+      <p class="kicker">Practical 2 · Week 2</p>
+      <h3>Diagnosing a regression model, and model complexity</h3>
+      <p>Complexity curves, residual plots, regularization, and what changes when the dataset grows or shrinks.</p>
+      <div class="nb-link" data-nb="materials/practices/p02/p02.ipynb">
+        <a class="btn" href="materials/practices/p02/p02.ipynb">Open the notebook</a>
+      </div>
+    </div>
+    <div class="card">
+      <p class="kicker">Practical 3 · Week 3</p>
+      <h3>Classification metrics, thresholds and imbalance</h3>
+      <p>Confusion matrices; precision, recall and the F1 score; moving the decision threshold; and when a precision-recall curve is more informative than a receiver operating characteristic curve.</p>
+      <div class="nb-link" data-nb="materials/practices/p03/p03.ipynb">
+        <a class="btn" href="materials/practices/p03/p03.ipynb">Open the notebook</a>
+      </div>
+    </div>
+    <div class="card">
+      <p class="kicker">Practical 4 · Week 4</p>
+      <h3>Trees and ensembles: complexity against generalization</h3>
+      <p>The depth of a tree measured against validation performance, a forest measured against a single tree, boosting, and how to read feature importances carefully.</p>
+      <div class="nb-link" data-nb="materials/practices/p04/p04.ipynb">
+        <a class="btn" href="materials/practices/p04/p04.ipynb">Open the notebook</a>
+      </div>
+    </div>
+    <div class="card">
+      <p class="kicker">Practical 5 · Week 5</p>
+      <h3>Support vector machines, scaling, margins and kernels</h3>
+      <p>Why feature scaling matters so much to a support vector machine, a linear kernel measured against a radial basis function kernel, and the roles of C and gamma.</p>
+      <div class="nb-link" data-nb="materials/practices/p05/p05.ipynb">
+        <a class="btn" href="materials/practices/p05/p05.ipynb">Open the notebook</a>
+      </div>
+    </div>
+    <div class="card">
+      <p class="kicker">Practical 6 · Week 6</p>
+      <h3>Cross-validation, tuning, pipelines and leakage</h3>
+      <p>Plain, stratified and grouped k-fold splitting; a grid search placed inside a pipeline; and a demonstration of how leakage inflates a score.</p>
+      <div class="nb-link" data-nb="materials/practices/p06/p06.ipynb">
+        <a class="btn" href="materials/practices/p06/p06.ipynb">Open the notebook</a>
+      </div>
+    </div>
+    <div class="card">
+      <p class="kicker">Practical 7 · Week 7</p>
+      <h3>Clustering and principal component analysis</h3>
+      <p>k-means, choosing the number of clusters, feature scaling, projecting onto principal components, and the shapes of data on which clustering fails.</p>
+      <div class="nb-link" data-nb="materials/practices/p07/p07.ipynb">
+        <a class="btn" href="materials/practices/p07/p07.ipynb">Open the notebook</a>
+      </div>
+    </div>
+    <div class="card">
+      <p class="kicker">Practical 8 · Week 8</p>
+      <h3>Gradient descent and a small neural network</h3>
+      <p>Learning rates, convergence, minibatches, and a small network built in PyTorch.</p>
+      <div class="nb-link" data-nb="materials/practices/p08/p08.ipynb">
+        <a class="btn" href="materials/practices/p08/p08.ipynb">Open the notebook</a>
+      </div>
+    </div>
+    <div class="card">
+      <p class="kicker">Practical 9 · Week 9</p>
+      <h3>Debugging a model and analyzing its errors</h3>
+      <p>Learning curves, a breakdown of where the errors fall, permutation importance, and what a shift in the data distribution looks like.</p>
+      <div class="nb-link" data-nb="materials/practices/p09/p09.ipynb">
+        <a class="btn" href="materials/practices/p09/p09.ipynb">Open the notebook</a>
+      </div>
+    </div>
+    <div class="card">
+      <p class="kicker">Practical 10 · Week 10</p>
+      <h3>A complete case study, and a clinic for the mini-project</h3>
+      <p>One whole workflow on a small dataset, together with the checklist and the mistakes that recur most often in mini-projects.</p>
+      <div class="nb-link" data-nb="materials/practices/p10/p10.ipynb">
+        <a class="btn" href="materials/practices/p10/p10.ipynb">Open the notebook</a>
+      </div>
+    </div>
+    </div>
+  </section>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-brand">Machine Learning · NaUKMA</p>
+    <p>Dmytro Kuzmenko, Assistant Professor, Department of Multimedia Systems · <a href="mailto:kuzmenko@ukma.edu.ua">kuzmenko@ukma.edu.ua</a></p>
+    <p>Course materials: <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma">github.com/dmytro-kuzmenko/ml-bsc-naukma</a></p>
+    <p>Course materials are licensed under <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma/blob/main/LICENSE">CC BY 4.0</a>.</p>
+    <p>© <span id="year">2026</span> Machine Learning · NaUKMA</p>
+  </div>
+</footer>
+</body>
+</html>

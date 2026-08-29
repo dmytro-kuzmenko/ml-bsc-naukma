@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nearest neighbors: the decision boundary — an interactive demonstration · Machine Learning (NaUKMA)</title>
+<meta name="description" content="An interactive demonstration: change the number of neighbors and watch the decision boundary go from jagged to smooth, alongside the training and leave-one-out accuracy.">
+<link rel="stylesheet" href="../assets/css/site.css">
+<style>
+  .demo-header {
+    background: var(--accent-strong);
+    padding: 1.1rem 0 1.2rem;
+    margin-bottom: 0.4rem;
+  }
+  .demo-header .back-link {
+    color: #d9e4f0;
+    text-decoration: none;
+    font-size: 0.92rem;
+  }
+  .demo-header .back-link:hover { color: #fff; text-decoration: underline; }
+  .demo-header h1 { color: #fff; margin: 0.4rem 0 0; font-size: 1.65rem; }
+  .demo-header .kicker { color: #f2d98c; margin-bottom: 0; }
+  .demo-intro { max-width: 46rem; }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem 1.8rem;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.9rem 1.1rem 1rem;
+    margin: 1.1rem 0 0.9rem;
+    align-items: flex-end;
+  }
+  .control { min-width: 190px; }
+  .control label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.88rem;
+    margin-bottom: 0.25rem;
+  }
+  .control .value {
+    font-weight: 700;
+    color: var(--accent-strong);
+    font-variant-numeric: tabular-nums;
+  }
+  input[type="range"] { width: 100%; max-width: 230px; display: block; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+  .figure { margin: 0.9rem 0 0.6rem; }
+  canvas.demo-canvas {
+    width: 100%;
+    height: 430px;
+    display: block;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .figure figcaption { font-size: 0.88rem; color: var(--muted); margin-top: 0.45rem; }
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+  .metric {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.45rem 0.55rem;
+    text-align: center;
+  }
+  .metric .k {
+    font-size: 0.74rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .metric .v {
+    font-size: 1.12rem;
+    font-weight: 700;
+    color: var(--accent-strong);
+    font-variant-numeric: tabular-nums;
+  }
+  .verdict {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 0.7rem 1rem;
+    margin: 1rem 0;
+  }
+  .what-to-try {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0.9rem 1.2rem 1rem;
+    margin-top: 1.4rem;
+  }
+  .what-to-try h2 { margin-top: 0.2em; }
+  .what-to-try ol { margin: 0; padding-left: 1.25rem; }
+  .what-to-try li { margin-bottom: 0.45rem; }
+  @media (max-width: 560px) {
+    canvas.demo-canvas { height: 300px; }
+    .control { min-width: 100%; }
+    input[type="range"] { max-width: 100%; }
+  }
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="demo-header">
+  <div class="container">
+    <a class="back-link" href="../index.html">Return to the course home page</a>
+    <p class="kicker">Module 3 · Learning a Boundary (Classification)</p>
+    <h1>Nearest neighbors: the decision boundary and the number of neighbors</h1>
+  </div>
+</header>
+<main id="main" class="container site-main">
+
+  <p class="demo-intro lead">
+    A nearest-neighbor classifier labels each point by taking a majority vote among the k training points closest to it. A small number of neighbors produces a jagged boundary that has effectively memorized the training set; a large number produces a smooth and much simpler one. The colored background shows the predicted class at every point of a grid of 90 by 90 positions, and a training point that its own neighbors get wrong is marked with a cross.
+  </p>
+
+  <section class="controls" aria-label="Controls for this demonstration">
+    <div class="control">
+      <label for="k">Number of neighbors <span class="value" id="k-val">5</span></label>
+      <input type="range" id="k" min="1" max="101" step="2" value="5"
+             aria-label="Number of nearest neighbors" aria-describedby="k-hint">
+      <span id="k-hint" class="muted small">Odd values from 1 to 101; the default is 5</span>
+    </div>
+  </section>
+
+  <figure class="figure">
+    <canvas id="plot" class="demo-canvas" width="700" height="430"
+      aria-label="The decision boundary of a nearest-neighbor classifier over a cloud of points from two classes">
+      An interactive drawing of the decision boundary of a nearest-neighbor classifier on two overlapping classes.
+      Your browser does not support the HTML5 canvas element.
+    </canvas>
+    <figcaption>
+      The blue region is where class A is predicted and the orange region is where class B is predicted. The dots are training points, colored by the class they really belong to, and a dark cross marks a training point that its own neighbors classify wrongly.
+    </figcaption>
+  </figure>
+
+  <section class="metrics" aria-label="Live accuracy measurements" aria-live="polite">
+    <div class="metric"><div class="k">Accuracy on the training data</div><div class="v" id="m-train">&ndash;</div></div>
+    <div class="metric"><div class="k">Leave-one-out accuracy</div><div class="v" id="m-loo">&ndash;</div></div>
+    <div class="metric"><div class="k">Points classified wrongly</div><div class="v" id="m-mis">&ndash;</div></div>
+    <div class="metric"><div class="k">Neighbors actually used</div><div class="v" id="m-k">&ndash;</div></div>
+  </section>
+
+  <p id="verdict" class="verdict" role="status" aria-live="polite">Move the slider and watch the boundary change from jagged to smooth.</p>
+
+  <section class="what-to-try">
+    <h2>Things worth trying</h2>
+    <ol>
+      <li>Set the number of neighbors to 1. The boundary is jagged and accuracy on the training data is 100 percent, because every point is its own nearest neighbor. The model has memorized the data. The leave-one-out figure is the honest estimate here.</li>
+      <li>Raise the number slowly to 5, then 15, then 31. The boundary smooths out, and the leave-one-out accuracy first rises and then begins to fall again as the model becomes too simple to follow the real shape.</li>
+      <li>Compare 1 neighbor with 31. Which of the two boundaries looks more reasonable for this data, and which one would you trust on points you have not seen?</li>
+      <li>Push the number to 101, which is larger than the dataset itself. The boundary collapses to a single class and the leave-one-out accuracy collapses with it, because a neighborhood that large is no longer local to anything.</li>
+      <li>Compare the crosses at 1 neighbor and at 15. With a single neighbor no training point can possibly be wrong; with a moderate number, a few points near the boundary are, and that is usually the better sign.</li>
+    </ol>
+  </section>
+</main>
+<script src="../assets/js/demos/common.js"></script>
+<script>
+'use strict';
+
+(function () {
+  var ML = window.ML;
+
+  // Fixed, seeded two-class data: two overlapping Gaussian blobs.
+  var rng = new ML.RNG(20260303);
+  var pts = [];
+  for (var i = 0; i < 60; i++) {
+    var cx = i < 30 ? 0.35 : 0.65, cy = i < 30 ? 0.65 : 0.35;
+    pts.push([cx + 0.2 * rng.normal(), cy + 0.2 * rng.normal(), i < 30 ? 0 : 1]);
+  }
+  var n = pts.length;
+
+  var DOM = { x0: -0.1, x1: 1.2, y0: -0.1, y1: 1.2 };
+
+  function classify(x, y, k, exclude) {
+    var ds = [];
+    for (var i = 0; i < n; i++) {
+      if (i === exclude) continue;
+      var dx = pts[i][0] - x, dy = pts[i][1] - y;
+      ds.push({ d: dx * dx + dy * dy, c: pts[i][2] });
+    }
+    ds.sort(function (a, b) { return a.d - b.d; });
+    k = Math.min(k, ds.length);
+    var v0 = 0, v1 = 0, s0 = 0, s1 = 0;
+    for (var j = 0; j < k; j++) {
+      if (ds[j].c === 0) { v0++; s0 += ds[j].d; } else { v1++; s1 += ds[j].d; }
+    }
+    if (v0 === v1) return s0 <= s1 ? 0 : 1;   // tie-break: closer neighbors win
+    return v0 > v1 ? 0 : 1;
+  }
+
+  function accuracies(k) {
+    var trainOk = 0, looOk = 0, mis = [];
+    for (var i = 0; i < n; i++) {
+      var p = classify(pts[i][0], pts[i][1], k, -1);
+      if (p === pts[i][2]) trainOk++; else mis.push(i);
+      var q = classify(pts[i][0], pts[i][1], k, i);
+      if (q === pts[i][2]) looOk++;
+    }
+    return { train: trainOk / n, loo: looOk / n, mis: mis };
+  }
+
+  var kSlider = ML.el('k');
+  var canvas = ML.el('plot');
+  var verdictEl = ML.el('verdict');
+  var off = document.createElement('canvas');
+  var G = 84;
+  off.width = G; off.height = G;
+
+  function draw() {
+    var w = canvas.clientWidth || 700, h = canvas.clientHeight || 430;
+    var ctx = ML.setupCanvas(canvas, w, h);
+    var k = +kSlider.value;
+    var kEffGrid = Math.min(k, n);
+
+    // letterboxed square plotting area with a uniform scale
+    var dx = DOM.x1 - DOM.x0, dy = DOM.y1 - DOM.y0;
+    var scale = Math.min((w - 60) / dx, (h - 60) / dy);
+    var px0 = (w - scale * dx) / 2, py0 = (h - scale * dy) / 2;
+    function X(x) { return px0 + (x - DOM.x0) * scale; }
+    function Y(y) { return py0 + (DOM.y1 - y) * scale; }
+
+    // decision boundary on a coarse grid, upscaled
+    var octx = off.getContext('2d');
+    var img = octx.createImageData(G, G);
+    var data = img.data;
+    for (var gy = 0; gy < G; gy++) {
+      for (var gx = 0; gx < G; gx++) {
+        var xx = DOM.x0 + (gx + 0.5) / G * dx;
+        var yy = DOM.y1 - (gy + 0.5) / G * dy;
+        var pred = classify(xx, yy, kEffGrid, -1);
+        var idx = (gy * G + gx) * 4;
+        if (pred === 0) { data[idx] = 29; data[idx + 1] = 78; data[idx + 2] = 121; }
+        else { data[idx] = 192; data[idx + 1] = 90; data[idx + 2] = 46; }
+        data[idx + 3] = 56;
+      }
+    }
+    octx.putImageData(img, 0, 0);
+    ctx.imageSmoothingEnabled = true;
+    ctx.drawImage(off, px0, py0, scale * dx, scale * dy);
+
+    // border
+    ctx.strokeStyle = '#e2dccd';
+    ctx.strokeRect(px0, py0, scale * dx, scale * dy);
+
+    // points
+    var acc = accuracies(k);
+    for (var i = 0; i < n; i++) {
+      var px = X(pts[i][0]), py = Y(pts[i][1]);
+      ctx.beginPath();
+      ctx.arc(px, py, 5, 0, 2 * Math.PI);
+      ctx.fillStyle = pts[i][2] === 0 ? '#1d4e79' : '#c05a2e';
+      ctx.fill();
+      ctx.lineWidth = 1.2;
+      ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+      ctx.stroke();
+    }
+    // misclassified markers
+    ctx.strokeStyle = '#23211c';
+    ctx.lineWidth = 2;
+    for (var m = 0; m < acc.mis.length; m++) {
+      var i2 = acc.mis[m];
+      var mx = X(pts[i2][0]), my = Y(pts[i2][1]);
+      ctx.beginPath();
+      ctx.moveTo(mx - 6, my - 6); ctx.lineTo(mx + 6, my + 6);
+      ctx.moveTo(mx + 6, my - 6); ctx.lineTo(mx - 6, my + 6);
+      ctx.stroke();
+    }
+
+    // axis labels
+    ctx.fillStyle = '#5f5c53'; ctx.font = '11px system-ui, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('x', w - 8, h - 10);
+    ctx.fillText('y', 12, py0 + 12);
+  }
+
+  function update() {
+    var k = +kSlider.value;
+    ML.el('k-val').textContent = k;
+    var kEffGrid = Math.min(k, n);
+    ML.el('m-k').textContent = kEffGrid;
+    var acc = accuracies(k);
+    ML.el('m-train').textContent = ML.fmtPct(acc.train, 1);
+    ML.el('m-loo').textContent = ML.fmtPct(acc.loo, 1);
+    ML.el('m-mis').textContent = acc.mis.length;
+
+    var txt;
+    if (k === 1) {
+      txt = 'With a single neighbor, every training point is its own nearest neighbor, so accuracy on ' +
+            'the training data is necessarily 100 percent. The jagged boundary and the leave-one-out ' +
+            'accuracy of ' + ML.fmtPct(acc.loo, 1) + ' show how heavily each decision rests on one point.';
+    } else if (k >= n) {
+      txt = 'Asking for ' + k + ' neighbors on a dataset this small means the neighborhood is no longer ' +
+            'local to anything. The boundary collapses to a single class everywhere, and the leave-one-out ' +
+            'accuracy falls to ' + ML.fmtPct(acc.loo, 1) + ' because the wrong class is predicted every time.';
+    } else if (acc.loo > 0.8) {
+      txt = 'With ' + k + ' neighbors the boundary is smooth and the leave-one-out accuracy is at its best, ' +
+            'at ' + ML.fmtPct(acc.loo, 1) + '. This is a reasonable balance between bias and variance for this data.';
+    } else {
+      txt = 'With ' + k + ' neighbors the boundary is smooth, but the leave-one-out accuracy has begun to ' +
+            'fall again, to ' + ML.fmtPct(acc.loo, 1) + '. The model is becoming too simple for the data.';
+    }
+    verdictEl.innerHTML = txt;
+    draw();
+  }
+
+  ML.bindSlider('k', update);
+  window.addEventListener('resize', draw);
+  update();
+})();
+
+</script>
+</body>
+</html>

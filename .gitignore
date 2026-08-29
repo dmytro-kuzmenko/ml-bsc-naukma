@@ -1,0 +1,34 @@
+# --- Python / notebooks ---
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+*.pyo
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+*.code-workspace
+
+# --- environments ---
+.venv/
+venv/
+env/
+node_modules/
+
+# --- private instructor materials (never commit) ---
+instructor-private/
+
+# --- temporary / generated ---
+*.log
+.tmp/
+.agent/
+specs/
+
+# --- lecture working files (sources stay local; only PDFs in materials/lectures are published) ---
+/lectures/
+
+# --- local build tooling (never published) ---
+/tools/

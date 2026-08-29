@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini-project — grading rubric — Machine Learning · NaUKMA</title>
+<meta name="description" content="Grading rubric for the mini-project of the Machine Learning course at NaUKMA.">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<script defer src="../../assets/js/config.js"></script>
+<script defer src="../../assets/js/main.js"></script>
+<style>
+  .doc-page { max-width: 54rem; }
+  .doc-crumb { margin: 0 0 1.1rem; font-size: 0.92rem; }
+  .doc-body h1 { font-size: 1.9rem; border-bottom: 1px solid var(--line); padding-bottom: 0.35rem; }
+  .doc-body h2 { font-size: 1.45rem; }
+  .doc-body h3 { font-size: 1.15rem; }
+  .doc-body .question-meta { margin: 1.3rem 0 0.4rem; }
+  .doc-body blockquote {
+    margin: 1rem 0; padding: 0.6rem 1rem;
+    background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--gold);
+    border-radius: var(--radius); color: var(--muted);
+  }
+  .doc-body blockquote p { margin: 0; }
+  .doc-body pre {
+    background: #f1ede2; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 0.8rem 1rem; overflow-x: auto; font-size: 0.86rem; line-height: 1.5;
+  }
+  .doc-body code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: #f1ede2; border-radius: 3px; padding: 0.08em 0.32em; font-size: 0.88em;
+  }
+  .doc-body pre code { background: none; padding: 0; font-size: 0.86rem; }
+  .doc-body details {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 0.55rem 0.9rem; margin: 0.8rem 0;
+  }
+  .doc-body summary { cursor: pointer; font-weight: 600; color: var(--accent-strong); }
+  .doc-body hr { border: none; border-top: 1px solid var(--line); margin: 1.6rem 0; }
+  .doc-body table { margin: 0.9rem 0; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-name">Machine Learning</span>
+      <span class="brand-sub">Machine Learning · NaUKMA</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+      <span aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+      <ul>
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../syllabus.html">Syllabus</a></li>
+        <li><a href="../../syllabus.html#modules">Modules</a></li>
+        <li><a href="../../practices.html">Practical sessions</a></li>
+        <li><a href="../../homeworks.html">Homework</a></li>
+        <li><a href="../../project.html">Mini-project</a></li>
+        <li><a href="../../assessments.html">Assessment</a></li>
+        <li><a href="../../policies.html">Policies</a></li>
+        <li><a href="../../resources.html">Resources</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main" class="container site-main doc-page">
+  <p class="doc-crumb"><a href="../../project.html">&larr; Mini-project</a></p>
+  <article class="doc-body">
+<h1>Mini-project: grading rubric (25 points)</h1>
+<p>There are eight criteria and each one is scored from 0 to 5, giving a raw total of 40. The raw total is converted to the 25 points the mini-project contributes to the course by multiplying it by five eighths, that is, by 0.625.</p>
+<p>The presentation is not graded on its own. A polished dashboard built on weak method cannot earn a high score.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>5 points, excellent</th>
+<th>3 points, satisfactory</th>
+<th>0 to 1 points, unsatisfactory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Formulating the problem</strong></td>
+<td>The question is specific and clear, it is obvious why it matters, and it is obvious what would count as an answer</td>
+<td>A question is present, but it is vague or trivial</td>
+<td>There is no question, or the question cannot be understood</td>
+</tr>
+<tr>
+<td><strong>Method</strong></td>
+<td>The models and the preprocessing are chosen for stated reasons, and everything is compared against a baseline</td>
+<td>The choices are made, but no reason is given for them</td>
+<td>The models appear to have been picked at random, and there is no baseline</td>
+</tr>
+<tr>
+<td><strong>Validity of the experiment</strong></td>
+<td>The split or the cross-validation scheme matches the structure of the data, nothing leaks, and the pipeline is used correctly</td>
+<td>The split is broadly correct, with minor flaws</td>
+<td>Leakage or an invalid split has distorted the conclusions</td>
+</tr>
+<tr>
+<td><strong>Evaluation</strong></td>
+<td>The metrics suit the task, and more than one number is shown, in tables or curves</td>
+<td>The metrics are appropriate, but the analysis stops at the surface</td>
+<td>The wrong metric is used, or accuracy is reported without any context</td>
+</tr>
+<tr>
+<td><strong>Analysis and interpretation</strong></td>
+<td>The results are interpreted, the conclusions follow from the evidence, and the limitations are named</td>
+<td>The interpretation is partial</td>
+<td>The conclusions are not supported by the results</td>
+</tr>
+<tr>
+<td><strong>Analysis of errors</strong></td>
+<td>It is clear where the model fails and why, with examples and identified patterns</td>
+<td>The errors are noted but not examined</td>
+<td>There is no analysis of errors</td>
+</tr>
+<tr>
+<td><strong>Reproducibility</strong></td>
+<td>Seeds are fixed, the notebook runs from top to bottom, and the environment is documented</td>
+<td>The work is partly reproducible</td>
+<td>The work cannot be reproduced</td>
+</tr>
+<tr>
+<td><strong>Quality of the conclusions</strong></td>
+<td>The conclusions are careful, they match the evidence, and nothing is overclaimed</td>
+<td>Mostly sound, with some overclaiming</td>
+<td>The conclusions bear no relation to the results</td>
+</tr>
+</tbody>
+</table></div>
+<h2>The default scale</h2>
+<p>The bands below may be adjusted at the defense.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Raw total, out of 40</th>
+<th>Points awarded, out of 25</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>36 to 40</td>
+<td>22.5 to 25</td>
+<td>Excellent</td>
+</tr>
+<tr>
+<td>29 to 35</td>
+<td>18 to 22</td>
+<td>Good</td>
+</tr>
+<tr>
+<td>23 to 28</td>
+<td>14.5 to 17.5</td>
+<td>Satisfactory</td>
+</tr>
+<tr>
+<td>Below 23</td>
+<td>Below 14.5</td>
+<td>Revision required</td>
+</tr>
+</tbody>
+</table></div>
+<h2>What is deliberately not graded</h2>
+<ul>
+<li>The number of plots, and how attractive the presentation looks.</li>
+<li>The use of the newest or the most complicated model available.</li>
+<li>Reaching a record score.</li>
+</ul>
+  </article>
+</main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-brand">Machine Learning · NaUKMA</p>
+    <p>Dmytro Kuzmenko, Assistant Professor, Department of Multimedia Systems · <a href="mailto:kuzmenko@ukma.edu.ua">kuzmenko@ukma.edu.ua</a></p>
+    <p>Course materials: <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma">github.com/dmytro-kuzmenko/ml-bsc-naukma</a></p>
+    <p>Course materials are licensed under <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma/blob/main/LICENSE">CC BY 4.0</a>.</p>
+    <p>© <span id="year">2026</span> Machine Learning · NaUKMA</p>
+  </div>
+</footer>
+</body>
+</html>

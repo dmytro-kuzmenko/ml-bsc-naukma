@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Practice midterm — sample questions — Machine Learning · NaUKMA</title>
+<meta name="description" content="Sample midterm questions for the Machine Learning course at NaUKMA.">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<script defer src="../../assets/js/config.js"></script>
+<script defer src="../../assets/js/main.js"></script>
+<style>
+  .doc-page { max-width: 54rem; }
+  .doc-crumb { margin: 0 0 1.1rem; font-size: 0.92rem; }
+  .doc-body h1 { font-size: 1.9rem; border-bottom: 1px solid var(--line); padding-bottom: 0.35rem; }
+  .doc-body h2 { font-size: 1.45rem; }
+  .doc-body h3 { font-size: 1.15rem; }
+  .doc-body .question-meta { margin: 1.3rem 0 0.4rem; }
+  .doc-body blockquote {
+    margin: 1rem 0; padding: 0.6rem 1rem;
+    background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--gold);
+    border-radius: var(--radius); color: var(--muted);
+  }
+  .doc-body blockquote p { margin: 0; }
+  .doc-body pre {
+    background: #f1ede2; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 0.8rem 1rem; overflow-x: auto; font-size: 0.86rem; line-height: 1.5;
+  }
+  .doc-body code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: #f1ede2; border-radius: 3px; padding: 0.08em 0.32em; font-size: 0.88em;
+  }
+  .doc-body pre code { background: none; padding: 0; font-size: 0.86rem; }
+  .doc-body details {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 0.55rem 0.9rem; margin: 0.8rem 0;
+  }
+  .doc-body summary { cursor: pointer; font-weight: 600; color: var(--accent-strong); }
+  .doc-body hr { border: none; border-top: 1px solid var(--line); margin: 1.6rem 0; }
+  .doc-body table { margin: 0.9rem 0; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-name">Machine Learning</span>
+      <span class="brand-sub">Machine Learning · NaUKMA</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+      <span aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+      <ul>
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../syllabus.html">Syllabus</a></li>
+        <li><a href="../../syllabus.html#modules">Modules</a></li>
+        <li><a href="../../practices.html">Practical sessions</a></li>
+        <li><a href="../../homeworks.html">Homework</a></li>
+        <li><a href="../../project.html">Mini-project</a></li>
+        <li><a href="../../assessments.html">Assessment</a></li>
+        <li><a href="../../policies.html">Policies</a></li>
+        <li><a href="../../resources.html">Resources</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main" class="container site-main doc-page">
+  <p class="doc-crumb"><a href="../../assessments.html">&larr; Assessment</a></p>
+  <article class="doc-body">
+<h1>Practice midterm — sample questions</h1>
+<blockquote>
+<p><strong>This is public practice material.</strong> The questions below are samples for self-study. The questions on the real examination are drawn from a private bank and are not published.</p>
+</blockquote>
+<h2>The format of the examination</h2>
+<ul>
+<li><strong>How long it lasts.</strong> Thirty minutes, taken individually against a timer.</li>
+<li><strong>When it happens.</strong> After Module 5, covering the material of the first five modules.</li>
+<li><strong>Where it happens.</strong> On DistEdu. Questions appear one to a screen, with the timer running.</li>
+<li><strong>The rules.</strong> Closed book. Artificial-intelligence tools and help from other people are <strong>prohibited</strong>, under the academic-integrity policy stated in the syllabus. An oral check afterwards is possible.</li>
+<li><strong>What it contains.</strong> Roughly 20 to 25 percent short conceptual reasoning, 50 to 60 percent interpretation and diagnosis, and 20 to 25 percent methodological decisions. There is very little arithmetic.</li>
+<li><strong>The kinds of question asked.</strong> Interpret a table or a plot; diagnose a model; choose a metric; choose a validation scheme; compare two models; find the leak; predict the effect of a change; reason about a decision threshold; reason about model complexity; answer a short conceptual question.</li>
+<li><strong>What is never asked.</strong> Reciting a definition, working through a long derivation, writing substantial code, or remembering the exact arguments of a library function.</li>
+</ul>
+<h2>Sample questions</h2>
+<p>Every sample below is labeled with the same information as a real examination item: the module it comes from, the kind of reasoning it asks for, its difficulty, and how long you should expect to spend on it. Each answer is hidden until you open it. Attempt the question before you look.</p>
+<p class="small muted question-meta">Module 1 · Question type: interpreting a plot or a table · Difficulty 1 of 3 · Time to allow: about 2 to 3 minutes</p>
+
+<p>You train one family of models at increasing capacity and record the error, where a lower number is better:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Capacity</th>
+<th>Training error</th>
+<th>Test error</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0.55</td>
+<td>0.57</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0.31</td>
+<td>0.33</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0.18</td>
+<td>0.24</td>
+</tr>
+<tr>
+<td>4</td>
+<td>0.11</td>
+<td>0.19</td>
+</tr>
+<tr>
+<td>5</td>
+<td>0.04</td>
+<td>0.29</td>
+</tr>
+</tbody>
+</table></div>
+<p>(a) Where does overfitting begin, and what is the evidence for it? (b) Which capacity would you choose, and why? (c) What would you expect to see at capacity 6?</p>
+<details>
+<summary><strong>Answer</strong></summary>
+
+**(a)** Overfitting sets in after capacity 4. The training error keeps falling, from 0.11 to 0.04, while the test error turns around and rises from 0.19 to 0.29. That divergence is the evidence.
+
+**(b)** Capacity 3. It has the lowest test error at 0.24 while the gap between training and test error is still small, so the estimate is more trustworthy than the one at capacity 4, where the gap has already begun to open.
+
+**(c)** At capacity 6 the training error would approach zero and the test error would be higher still, because variance now dominates the error.
+
+</details>
+
+<p class="small muted question-meta">Module 2 · Question type: choosing a metric · Difficulty 1 of 3 · Time to allow: about 2 minutes</p>
+
+<p>A sales-forecasting model is evaluated on a test set of 200 records, two of which were entered with a typing error that made their values extreme. You have to report a single number to the business. Would you report the root mean squared error or the mean absolute error, and why does the choice change how the model is judged?</p>
+<details>
+<summary><strong>Answer</strong></summary>
+
+Report the **mean absolute error**. The two corrupted records are outliers, and the root mean squared error squares every error before averaging, so those two records would dominate the total and make an otherwise sound model look bad. The mean absolute error describes typical performance and is far less sensitive to a handful of bad records. If the business also needs to know the worst case, report both numbers and explain why they disagree.
+
+</details>
+
+<p class="small muted question-meta">Module 3 · Question type: reasoning about the decision threshold · Difficulty 2 of 3 · Time to allow: about 2 to 3 minutes</p>
+
+<p>An email filter uses a decision threshold of 0.5 and currently achieves a precision of 0.45 and a recall of 0.99. You raise the threshold to 0.7. Predict the direction in which precision, recall and the total number of flagged messages will move. Which of the three is guaranteed to move in one direction, and why?</p>
+<details>
+<summary><strong>Answer</strong></summary>
+
+Precision rises, recall falls, and the number of flagged messages falls.
+
+The number of flagged messages is the guaranteed one. Raising the threshold can only remove messages from the flagged set, never add any, so that count can only go down or stay the same. Recall therefore cannot increase either, since its numerator is a subset of the flagged messages. Precision usually rises, because the messages that survive a higher bar are the ones the model is most confident about, although it is not strictly guaranteed to do so.
+
+</details>
+
+<p class="small muted question-meta">Module 3 · Question type: diagnosing a model · Difficulty 1 of 3 · Time to allow: about 2 minutes</p>
+
+<p>A classifier is evaluated on 1000 samples, 50 of which are positive. It predicts the positive class zero times and the negative class 1000 times. (a) What is this classifier actually doing? (b) Compute its accuracy and its recall. (c) Which metric should the evaluation report, and why?</p>
+<details>
+<summary><strong>Answer</strong></summary>
+
+**(a)** It always predicts the majority class, which here is the negative one. It has learned nothing about the problem.
+
+**(b)** Accuracy is 950 divided by 1000, that is 0.95. Recall is 0 divided by 50, that is 0.
+
+**(c)** Report recall, together with precision and the F1 score, on the positive class. Accuracy reads as 95 percent even though the classifier finds none of the cases it was built to find, and that is exactly what accuracy hides on imbalanced data.
+
+</details>
+
+<p class="small muted question-meta">Module 2 · Question type: identifying data leakage · Difficulty 2 of 3 · Time to allow: about 2 to 3 minutes</p>
+
+<p>An online retailer builds a model to predict whether a customer will return a purchased item. One of the features is <code>refund_amount</code>, which is non-zero for exactly those items that were returned. (a) What is wrong with this feature? (b) What would happen to the model once it was deployed?</p>
+<details>
+<summary><strong>Answer</strong></summary>
+
+**(a)** The feature is the label wearing a disguise. It is non-zero for exactly the returned items, so the model can reach a near-perfect score by learning that a refund implies a return, which teaches it nothing about the customers or the products. This is target leakage.
+
+**(b)** At the moment a prediction has to be made, the refund has not happened yet, so the feature is unavailable or always zero. The impressive score collapses to whatever the genuinely predictive features can support on their own.
+
+</details>
+
+<p class="small muted question-meta">Module 4 · Question type: predicting the effect of a change · Difficulty 2 of 3 · Time to allow: about 2 to 3 minutes</p>
+
+<p>A random forest is trained first with 5 trees and then with 200, with every other setting unchanged. Predict what happens to (a) training accuracy, (b) test accuracy, and (c) the spread of test accuracy across different random seeds. Explain why the effect eventually stops.</p>
+<details>
+<summary><strong>Answer</strong></summary>
+
+**(a)** Training accuracy barely moves, because it is already close to its ceiling.
+
+**(b)** Test accuracy improves somewhat and, more importantly, becomes stable.
+
+**(c)** The spread across seeds drops sharply.
+
+The effect saturates because averaging many trees removes variance, and once a few hundred trees have been averaged there is very little variance left to remove. Averaging does nothing to bias, so the remaining error stays where it is.
+
+</details>
+
+<p class="small muted question-meta">Module 4 · Question type: reasoning about model complexity · Difficulty 2 of 3 · Time to allow: about 2 to 3 minutes</p>
+
+<p>A decision tree limited to depth 20 reaches a training accuracy of 1.00 and a test accuracy of 0.55. A tree limited to depth 3 reaches 0.81 on training data and 0.80 on test data. (a) Explain the difference in terms of bias and variance. (b) What would you expect at depth 1?</p>
+<details>
+<summary><strong>Answer</strong></summary>
+
+**(a)** The deep tree has far more capacity than the problem needs. It carves the training data into pure leaves and reproduces it exactly, which is why training accuracy reaches 1.00, but those leaves are shaped by the noise in this particular sample, so they do not transfer. That is high variance, and it shows as a test accuracy of 0.55. The shallow tree can only express a coarse rule, so it fits the training data less well, but that rule is stable across samples and transfers almost intact, which is why 0.81 and 0.80 are so close together.
+
+**(b)** At depth 1 the tree makes a single split. Both training and test accuracy would fall, because one threshold on one feature is too coarse to capture the pattern. That is underfitting, and its signature is poor performance on both splits at once.
+
+</details>
+
+<p class="small muted question-meta">Module 5 · Question type: comparing models · Difficulty 3 of 3 · Time to allow: about 3 to 4 minutes</p>
+
+<p>A two-dimensional dataset is arranged so that the two classes alternate between the four quadrants, in the pattern of the exclusive-or function. A support vector machine with a linear kernel reaches a test accuracy of 0.62; one with a radial basis function kernel reaches 0.98. (a) Why does the linear kernel fail here? (b) What does the radial basis function kernel provide that makes the separation possible? (c) Would a polynomial kernel of degree 2 also be a reasonable candidate?</p>
+<details>
+<summary><strong>Answer</strong></summary>
+
+**(a)** No straight line separates the two classes in this arrangement, because each class occupies two opposite quadrants. A linear boundary can therefore do little better than chance on this geometry, whatever the value of C.
+
+**(b)** The radial basis function kernel measures local similarity between points, which corresponds to an implicit feature space of infinitely many dimensions. That allows the machine to draw closed, curved regions around groups of points of one class rather than a single straight cut.
+
+**(c)** Yes. A polynomial kernel of degree 2 includes the product of the two coordinates among its implicit features, and the sign of that product is precisely what distinguishes the two classes here, so a quadratic kernel separates this pattern cleanly. It is a genuinely reasonable candidate, and on data of this shape it is worth trying before reaching for the radial basis function, because it has one fewer hyperparameter to tune.
+
+</details>
+
+<h2>How to approach these questions</h2>
+<ul>
+<li>Reason in terms of generalization. Performance on the training data is not evidence that anything has been learned; the gap between training and test performance is what carries the information.</li>
+<li>On any question about metrics, first name the cost structure of the task, that is, say which kind of error is expensive, and only then choose the metric.</li>
+<li>On any question about leakage, ask two things: would this feature actually be available at the moment of prediction, and did any step of the procedure see the test data.</li>
+<li>On any question about thresholds, remember that raising the threshold always flags fewer cases, which pushes precision up and recall down.</li>
+<li>Read a table as numbers rather than as a picture. Compare the training column against the test column and follow the trend, instead of looking at one cell.</li>
+<li>When a question asks you to predict an effect, state the mechanism in one sentence, naming bias, variance or the amount of data. That sentence is what earns the marks.</li>
+</ul>
+  </article>
+</main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-brand">Machine Learning · NaUKMA</p>
+    <p>Dmytro Kuzmenko, Assistant Professor, Department of Multimedia Systems · <a href="mailto:kuzmenko@ukma.edu.ua">kuzmenko@ukma.edu.ua</a></p>
+    <p>Course materials: <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma">github.com/dmytro-kuzmenko/ml-bsc-naukma</a></p>
+    <p>Course materials are licensed under <a href="https://github.com/dmytro-kuzmenko/ml-bsc-naukma/blob/main/LICENSE">CC BY 4.0</a>.</p>
+    <p>© <span id="year">2026</span> Machine Learning · NaUKMA</p>
+  </div>
+</footer>
+</body>
+</html>
